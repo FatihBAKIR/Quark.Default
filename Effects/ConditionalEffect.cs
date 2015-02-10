@@ -15,7 +15,7 @@ public class ConditionalEffect : Effect
 
     public override void Apply()
 	{
-		_condition.SetContext (_context);
+        _condition.SetContext (_context);
         _effect.SetContext(_context);
 
  		if (_condition.Check())
@@ -24,7 +24,7 @@ public class ConditionalEffect : Effect
 
     public override void Apply(Vector3 point)
 	{
-		_condition.SetContext (_context);
+        _condition.SetContext (_context);
         _effect.SetContext(_context);
 
         if (_condition.Check(point))
@@ -33,7 +33,7 @@ public class ConditionalEffect : Effect
 
     public override void Apply(Targetable target)
 	{
-		_condition.SetContext (_context);
+        _condition.SetContext (_context);
         _effect.SetContext(_context);
 
         if (_condition.Check(target))
@@ -42,9 +42,9 @@ public class ConditionalEffect : Effect
 
     public override void Apply(Character target)
     {
-		_condition.SetContext (_context);
+        _condition.SetContext (_context);
         _effect.SetContext(_context);
-       
+
         if (_condition.Check(target))
             _effect.Apply(target);
     }
