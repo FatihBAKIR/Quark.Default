@@ -18,7 +18,7 @@ public class ConditionalEffect : Effect
         _condition.SetContext (_context);
         _effect.SetContext(_context);
 
- 		if (_condition.Check())
+        if (_condition.Check())
             _effect.Apply();
     }
 
