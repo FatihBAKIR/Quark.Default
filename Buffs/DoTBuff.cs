@@ -3,20 +3,19 @@ using System.Collections;
 using Quark;
 using Quark.Buff;
 
-public class DoTBuff : Buff {
-	public DoTBuff()
+public class DoTBuff : EoTBuff {
+
+	public DoTBuff(Interaction casterInteractions, Interaction targetInteractions, float interval, float duration, float constant = 0) 
+		: base(new DamageEffect (casterInteractions, targetInteractions, constant), interval, duration)
 	{
-		Interval = 1;
-		Duration = 3;
-		Behaviour = StackBehavior.ResetBeginning | StackBehavior.IncreaseStacks;
-		MaxStacks = 10;
 	}
 
-	protected override EffectCollection TickEffects {
-		get {
-			return new EffectCollection {
-				new DamageEffect (10)
-			};
-		}
+	public DoTBuff (float interval, float duration, float constant = 0)
+		: base(new DamageEffect (constant), interval, duration)
+	{
+	}
+
+	public DoTBuff(DamageEffect effect, float interval, float duration) : base(effect, interval, duration)
+	{
 	}
 }
