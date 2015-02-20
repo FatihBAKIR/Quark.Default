@@ -4,47 +4,45 @@ using Quark;
 
 /// <summary>
 /// Stat effect.
-/// This effect manipulates one of the given target Characters stat
+/// This effect manipulates one of the given target Characters stat on Apply time
 /// </summary>
 public class StatEffect : Effect
 {
-    string _tag;
-    Interaction _casterInteractions;
-    Interaction _targetInteractions;
+	readonly string _tag;
+	readonly Interaction _casterInteractions;
+	readonly Interaction _targetInteractions;
+	readonly float _constant;
 
-    public StatEffect(string StatTag)
-    {
-        _tag = StatTag;
-    }
+	public StatEffect (string StatTag, float constant)
+	{
+		_tag = StatTag;
+		_constant = constant;
+	}
 
-    public StatEffect(string StatTag, Interaction casterInteractions, Interaction targetInteractions)
-    {
-        _tag = StatTag;
-        _casterInteractions = casterInteractions;
-        _targetInteractions = targetInteractions;
-    }
+	public StatEffect (string StatTag, Interaction casterInteractions, Interaction targetInteractions, float constant = 0)
+	{
+		_tag = StatTag;
+		_casterInteractions = casterInteractions;
+		_targetInteractions = targetInteractions;
+		_constant = constant;
+	}
 
-    protected override string Name
-    {
-        get
-        {
-            return "Stat Effect";
-        }
-    }
+	protected virtual float CalculateValue (Character of)
+	{
+		float casterVal = _casterInteractions == null ? 0 : _casterInteractions.Calculate (Context.Caster);
+		float targetVal = _targetInteractions == null ? 0 : _targetInteractions.Calculate (of);
 
-    protected virtual float CalculateValue(Character of)
-    {
-        float casterVal = _casterInteractions.Calculate(_context.Caster);
-		float targetVal = _targetInteractions.Calculate(of);
+		return casterVal + targetVal;
+	}
 
-        return casterVal + targetVal;
-    }
+	public override void Apply (Character target)
+	{
+		float change = 0;
+		change += _constant;
+		change += CalculateValue (target);
 
-    public override void Apply(Character target)
-    {
-        float change = 0;
-        change += CalculateValue(target);
-
-        target.GetStat(_tag).Manipulate(change);
-    }
+		target.GetStat (_tag).Manipulate (change);
+		new EffectArgs (this, target).Broadcast ();
+	}
 }
+

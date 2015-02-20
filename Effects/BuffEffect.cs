@@ -2,24 +2,36 @@
 using Quark.Buff;
 using Quark;
 
+/// <summary>
+/// This effect attaches the given Buff objects to the target Character
+/// </summary>
 public class BuffEffect : Effect
 {
-    Buff[] buffs;
+	Buff[] _buffs;
 
-    public BuffEffect(Buff[] buffsToApply)
-    {
-        buffs = new Buff[buffsToApply.Length];
-        buffsToApply.CopyTo(buffs, 0);
-    }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="BuffEffect"/> class.
+	/// </summary>
+	/// <param name="buffsToApply">Buffs to attach on Apply time.</param>
+	public BuffEffect (Buff[] buffsToApply)
+	{
+		_buffs = new Buff[buffsToApply.Length];
+		buffsToApply.CopyTo (_buffs, 0);
+	}
 
-    public override void Apply(Character target)
-    {
-        foreach (Buff buff in buffs)
-        {
-			buff.SetContext(_context);
-            target.AttachBuff(buff);
-        }
-        base.Apply(target);
-    }
+	public BuffEffect (Buff buff)
+	{
+		_buffs = new Buff[] { buff };
+	}
+
+	public override void Apply (Character target)
+	{
+		foreach (Buff buff in _buffs) {
+			buff.SetContext (Context);
+			target.AttachBuff (buff);
+		}
+		new EffectArgs (this, target).Broadcast ();
+		base.Apply (target);
+	}
 }
 

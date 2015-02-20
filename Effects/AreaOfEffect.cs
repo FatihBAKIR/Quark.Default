@@ -1,8 +1,10 @@
-﻿using System;
-using Quark;
+﻿using Quark;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This effect relays the characters in a range of the target point to the given effect 
+/// </summary>
 public class AreaOfEffect : Effect
 {
 	Effect _effect;
@@ -13,13 +15,13 @@ public class AreaOfEffect : Effect
 		_range = range;
 	}
 
-	public override void Apply (UnityEngine.Vector3 point)
+	public override void Apply (Vector3 point)
 	{
 		NearbyCharacters chars = new NearbyCharacters (point, _range);
 		chars.CharacterSelected += HandleCharacterSelected;
 		chars.Run ();
 		foreach (Character target in targets) {
-			_effect.SetContext(_context);
+			_effect.SetContext(Context);
 			_effect.Apply (target);
 		}
 		base.Apply (point);

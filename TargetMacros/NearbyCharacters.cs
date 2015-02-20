@@ -4,14 +4,16 @@ using Quark;
 using UnityEngine;
 using System.Collections.Generic;
 
-
 public class NearbyCharacters : TargetMacro
 {
 	protected Vector3 _point;
 	protected float _range;
+	protected bool _nearCaster;
 
-	public NearbyCharacters() : base()
+	public NearbyCharacters(float range) : base()
 	{
+		_range = range;
+		_nearCaster = true;
 	}
 
 	public NearbyCharacters (Vector3 point, float range)
@@ -37,6 +39,8 @@ public class NearbyCharacters : TargetMacro
 
 	public override void Run ()
 	{
+		if (_nearCaster)
+			_point = _context.Caster.transform.position;
 		foreach (Character target in ClosestCharacters())
 			OnTargetSelected (target);
 		OnTargetingSuccess ();

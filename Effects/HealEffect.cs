@@ -5,9 +5,13 @@ namespace AssemblyCSharpvs
 {
     public class HealEffect : StatEffect
     {
-        public HealEffect(Interaction casterInteractions, Interaction targetInteractions) : base("hp", casterInteractions, targetInteractions)
+        public HealEffect(Interaction casterInteractions, Interaction targetInteractions, float constant = 0) : base("hp", casterInteractions, targetInteractions, constant)
         {
         }
+
+		public HealEffect(float constant) : base ("hp", constant)
+		{
+		}
     }
 }
 
