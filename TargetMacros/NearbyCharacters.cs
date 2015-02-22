@@ -40,7 +40,7 @@ public class NearbyCharacters : TargetMacro
 	public override void Run ()
 	{
 		if (_nearCaster)
-			_point = _context.Caster.transform.position;
+			_point = Context.Caster.transform.position;
 		foreach (Character target in ClosestCharacters())
 			OnTargetSelected (target);
 		OnTargetingSuccess ();
