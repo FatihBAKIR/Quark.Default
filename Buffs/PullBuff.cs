@@ -6,12 +6,12 @@ public class PullBuff : Buff
 {
 	Vector3 _pullTo;
 	Vector3 _movement;
-	bool _setToCaster;
-	float _speed;
+    readonly bool _setToCaster;
+    readonly float _speed;
 
 	public PullBuff (float speed = 1)
 	{
-		Continious = true;
+		Continuous = true;
 		Duration = -1;
 		_setToCaster = true;
 		_speed = speed;
@@ -19,7 +19,7 @@ public class PullBuff : Buff
 
 	public PullBuff (Vector3 position, float speed = 1)
 	{
-		Continious = true;
+		Continuous = true;
 		Duration = -1;
 		_pullTo = position;
 		_movement = CalculateMovement ();

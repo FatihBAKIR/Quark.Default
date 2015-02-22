@@ -15,7 +15,8 @@ public class DoTBuff : EoTBuff {
 	{
 	}
 
-	public DoTBuff(DamageEffect effect, float interval, float duration) : base(effect, interval, duration)
+	public DoTBuff(DamageEffect effect, float interval, float duration) 
+		: base(effect, interval, duration)
 	{
 	}
 }

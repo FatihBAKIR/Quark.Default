@@ -13,15 +13,15 @@ public class StatEffect : Effect
 	readonly Interaction _targetInteractions;
 	readonly float _constant;
 
-	public StatEffect (string StatTag, float constant)
+	public StatEffect (string statTag, float constant)
 	{
-		_tag = StatTag;
+		_tag = statTag;
 		_constant = constant;
 	}
 
-	public StatEffect (string StatTag, Interaction casterInteractions, Interaction targetInteractions, float constant = 0)
+	public StatEffect (string statTag, Interaction casterInteractions, Interaction targetInteractions, float constant = 0)
 	{
-		_tag = StatTag;
+		_tag = statTag;
 		_casterInteractions = casterInteractions;
 		_targetInteractions = targetInteractions;
 		_constant = constant;

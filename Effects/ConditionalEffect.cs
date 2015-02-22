@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class ConditionalEffect : Effect
 {
-	Condition _condition;
-	Effect _onTrue;
-	Effect _onFalse;
+    readonly Condition _condition;
+    readonly Effect _onTrue;
+    readonly Effect _onFalse;
 
 	public ConditionalEffect (Condition condition, Effect ontrue, Effect onfalse = null)
 	{

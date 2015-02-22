@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class OnCharacterPositionEffect : Effect
 {
-	Effect _effect;
+    readonly Effect _effect;
 
 	public OnCharacterPositionEffect (Effect effect)
 	{

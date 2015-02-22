@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class AreaOfEffect : Effect
 {
-	Effect _effect;
-	float _range;
+    readonly Effect _effect;
+    readonly float _range;
 	public AreaOfEffect (Effect effect, float range)
 	{
 		_effect = effect;
@@ -20,16 +20,17 @@ public class AreaOfEffect : Effect
 		NearbyCharacters chars = new NearbyCharacters (point, _range);
 		chars.CharacterSelected += HandleCharacterSelected;
 		chars.Run ();
-		foreach (Character target in targets) {
+		foreach (Character target in _targets) {
 			_effect.SetContext(Context);
 			_effect.Apply (target);
 		}
 		base.Apply (point);
 	}
 
-	List<Character> targets = new List<Character>();
+    readonly List<Character> _targets = new List<Character>();
+
 	void HandleCharacterSelected (Character target)
 	{
-		targets.Add (target);
+		_targets.Add (target);
 	}
 }

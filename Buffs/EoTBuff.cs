@@ -3,7 +3,7 @@ using Quark.Buff;
 
 public class EoTBuff : Buff
 {
-	Effect _effect;
+    readonly Effect _effect;
 
 	public EoTBuff (Effect effect, float interval, float duration)
 	{

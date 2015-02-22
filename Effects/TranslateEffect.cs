@@ -1,10 +1,9 @@
-﻿using System;
-using Quark;
+﻿using Quark;
 using UnityEngine;
 
 public class TranslateEffect : Effect
 {
-	Vector3 _movement;
+    readonly Vector3 _movement;
 	public TranslateEffect (Vector3 movement)
 	{
 		_movement = movement;

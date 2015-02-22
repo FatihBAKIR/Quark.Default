@@ -54,7 +54,6 @@ public class NearestCharacter : TargetMacro
 		} else {
 			OnTargetingFail (TargetingError.NotFound);
 		}
-		base.Run ();
 	}
 }
 

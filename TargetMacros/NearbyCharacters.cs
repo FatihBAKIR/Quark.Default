@@ -44,7 +44,6 @@ public class NearbyCharacters : TargetMacro
 		foreach (Character target in ClosestCharacters())
 			OnTargetSelected (target);
 		OnTargetingSuccess ();
-		base.Run ();
 	}
 }
 

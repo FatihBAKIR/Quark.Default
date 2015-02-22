@@ -10,13 +10,19 @@ public class BoomSpell : Spell
 		}
 	}
 
+	public override float CastDuration {
+		get {
+			return 1;
+		}
+	}
+
 	public override TargetMacro TargetMacro {
 		get {
 			return new NearestCharacter(5);
 		}
 	}
 
-	protected override EffectCollection TargetingDoneEffects {
+	protected override EffectCollection CastDoneEffects {
 		get {
 			return new EffectCollection {
 				new DamageEffect (10)

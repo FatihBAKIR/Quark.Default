@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PullEffect : Effect
 {
-	Vector3 _point;
-	bool _noPoint;
-	float _speed;
+    readonly Vector3 _point;
+    readonly bool _noPoint;
+    readonly float _speed;
 
 	public PullEffect (float speed = 1)
 	{

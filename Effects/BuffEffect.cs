@@ -1,13 +1,11 @@
-﻿using System;
-using Quark.Buff;
+﻿using Quark.Buff;
 using Quark;
-
 /// <summary>
 /// This effect attaches the given Buff objects to the target Character
 /// </summary>
 public class BuffEffect : Effect
 {
-	Buff[] _buffs;
+    readonly Buff[] _buffs;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BuffEffect"/> class.
@@ -21,7 +19,7 @@ public class BuffEffect : Effect
 
 	public BuffEffect (Buff buff)
 	{
-		_buffs = new Buff[] { buff };
+		_buffs = new[] { buff };
 	}
 
 	public override void Apply (Character target)
