@@ -1,9 +1,11 @@
-﻿using System;
-using Quark.Targeting;
+﻿using Quark.Targeting;
 using Quark;
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// This macro selects every targetable Character within a given radius around a point or the Caster
+/// </summary>
 public class NearbyCharacters : TargetMacro
 {
 	protected Vector3 _point;

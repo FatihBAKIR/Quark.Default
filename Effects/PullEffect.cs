@@ -1,6 +1,5 @@
-﻿using System;
-using Quark;
-using Quark.Buff;
+﻿using Quark;
+using Quark.Buffs;
 using UnityEngine;
 
 public class PullEffect : Effect

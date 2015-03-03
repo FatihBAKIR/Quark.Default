@@ -1,5 +1,5 @@
 ﻿using Quark;
-using Quark.Buff;
+using Quark.Buffs;
 
 public class EoTBuff : Buff
 {

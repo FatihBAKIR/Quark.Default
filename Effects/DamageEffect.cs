@@ -15,4 +15,12 @@ public class DamageEffect : StatEffect
     {
         return -base.CalculateValue(of);
     }
+
+    public override void Apply(Character target)
+    {
+        if (target.IsTagged(DefaultTags.Invulnerable))
+            return;
+
+        base.Apply(target);
+    }
 }

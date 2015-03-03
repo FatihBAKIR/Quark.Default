@@ -1,12 +1,10 @@
-﻿using Quark;
-using Quark.Targeting;
+﻿using Quark.Targeting;
 
+/// <summary>
+/// This macro selects Context.Caster Character
+/// </summary>
 public class SelfCharacter : TargetMacro
 {
-	public SelfCharacter ()
-	{
-	}
-
 	public override void Run ()
 	{
 		OnTargetSelected (Context.Caster);

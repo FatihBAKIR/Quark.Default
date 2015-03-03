@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using Quark;
-using Quark.Buff;
+﻿using Quark;
 
 public class DoTBuff : EoTBuff {
 

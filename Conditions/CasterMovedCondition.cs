@@ -1,5 +1,4 @@
-﻿using System;
-using Quark;
+﻿using Quark;
 using UnityEngine;
 
 /// <summary>
@@ -8,12 +7,8 @@ using UnityEngine;
 /// </summary>
 public class CasterMovedCondition : Condition
 {
-	public CasterMovedCondition ()
-	{
-	}
-
 	public override bool Check ()
 	{
-		return Vector3.Distance (Context.CastBeginPoint, Context.Caster.transform.position) >= Quark.Missile.Missile.NearEnough;
+		return Vector3.Distance (Context.CastBeginPoint, Context.Caster.transform.position) >= Quark.Missiles.Missile.NearEnough;
 	}
 }

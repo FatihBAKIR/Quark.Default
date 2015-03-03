@@ -1,9 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Quark.Targeting;
 using Quark;
-using System.Collections.Generic;
 
+/// <summary>
+/// This macro seleccts the nearest targetable Character within a given radius around a point or the Caster
+/// </summary>
 public class NearestCharacter : TargetMacro
 {
 	protected Vector3 _point;

@@ -1,50 +1,67 @@
 ﻿using Quark;
-using Quark.Buff;
+using Quark.Buffs;
 using UnityEngine; //For Vector3
 
 public class PullBuff : Buff
 {
-	Vector3 _pullTo;
-	Vector3 _movement;
+    Vector3 _pullTo;
+    Vector3 _movement;
     readonly bool _setToCaster;
     readonly float _speed;
 
-	public PullBuff (float speed = 1)
-	{
-		Continuous = true;
-		Duration = -1;
-		_setToCaster = true;
-		_speed = speed;
-	}
+    public PullBuff(float speed = 1)
+    {
+        Continuous = true;
+        Duration = -1;
+        _setToCaster = true;
+        _speed = speed;
+    }
 
-	public PullBuff (Vector3 position, float speed = 1)
-	{
-		Continuous = true;
-		Duration = -1;
-		_pullTo = position;
-		_movement = CalculateMovement ();
-		_speed = speed;
-	}
+    public PullBuff(Vector3 position, float speed = 1)
+    {
+        Continuous = true;
+        Duration = -1;
+        _pullTo = position;
+        _movement = CalculateMovement();
+        _speed = speed;
+    }
 
-	public override void OnPossess (Character possessor)
-	{
-		base.OnPossess (possessor);
-		if (_setToCaster) {
-			_pullTo = Context.CastBeginPoint + Context.Caster.transform.forward;
-			_movement = CalculateMovement ();
-		}
-	}
+    public override void OnPossess()
+    {
+        if (_setToCaster)
+        {
+            _pullTo = Context.CastBeginPoint + Context.Caster.transform.forward;
+            _movement = CalculateMovement();
+        }
+    }
 
-	Vector3 CalculateMovement ()
-	{
-		return (_pullTo - Possessor.transform.position).normalized;
-	}
+    Vector3 CalculateMovement()
+    {
+        return (_pullTo - Possessor.transform.position).normalized;
+    }
 
-	protected override EffectCollection TickEffects {
-		get {
-			return new EffectCollection {
+    protected override EffectCollection PossessEffects
+    {
+        get { return new EffectCollection { new TagEffect(DefaultTags.Immobile) }; }
+    }
+
+    protected override EffectCollection TickEffects
+    {
+        get
+        {
+            return new EffectCollection {
 				new TranslateEffect (_movement * Time.deltaTime * _speed)
 			};
-		}
-	}
+        }
+    }
+
+    protected override EffectCollection DoneEffects
+    {
+        get { return new EffectCollection { new UntagEffect(DefaultTags.Immobile) }; }
+    }
+
+    protected override EffectCollection TerminateEffects
+    {
+        get { return DoneEffects; }
+    }
 }

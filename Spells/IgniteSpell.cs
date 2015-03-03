@@ -1,6 +1,5 @@
 ﻿using Quark;
-using Quark.Buff;
-using Quark.Spell;
+using Quark.Spells;
 using Quark.Targeting;
 
 public class IgniteSpell : Spell

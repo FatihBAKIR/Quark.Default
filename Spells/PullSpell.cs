@@ -1,5 +1,5 @@
 ﻿using Quark;
-using Quark.Spell;
+using Quark.Spells;
 using Quark.Targeting;
 
 public class PullSpell : Spell

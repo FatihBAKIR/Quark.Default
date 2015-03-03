@@ -1,6 +1,17 @@
 ﻿using UnityEngine;
 using Quark;
-using Quark.Buff;
+using Quark.Buffs;
+
+/*
+ * #### WARNING ####
+ * THIS ASSET IS VERY VERY EXPERIMENTAL
+ * AND DEFINITELY GOING TO CHANGE IN THE NEAR FUTURE
+ * DO NOT RELY ON IT
+ * ####
+ * 
+ * This is a complete ripoff of the example CharacterController.Move code from Unity scripting reference:
+ * http://docs.unity3d.com/ScriptReference/CharacterController.Move.html
+ */
 
 public class PlayerController : Buff
 {
@@ -11,28 +22,27 @@ public class PlayerController : Buff
 		Continuous = true;
 	}
 
-	float speed = 6, jumpSpeed = 8, gravity = 20;
-	CharacterController controller;
+	float _speed = 6, _jumpSpeed = 8, _gravity = 20;
+	CharacterController _controller;
 
-	public override void OnPossess (Character possessor)
+	public override void OnPossess ()
 	{
-		base.OnPossess (possessor);
-		controller = Possessor.GetComponent<CharacterController> ();
+		_controller = Possessor.GetComponent<CharacterController> ();
 	}
 
-	Vector3 moveDirection = Vector3.zero;
+	Vector3 _moveDirection = Vector3.zero;
 	Vector3 Movement
 	{
 		get {
-			if (controller.isGrounded) {
-				moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
-				moveDirection = Possessor.transform.TransformDirection (moveDirection);
-				moveDirection *= speed;
+			if (_controller.isGrounded) {
+				_moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
+				_moveDirection = Possessor.transform.TransformDirection (_moveDirection);
+				_moveDirection *= _speed;
 				if (Input.GetButton ("Jump"))
-					moveDirection.y = jumpSpeed;
+					_moveDirection.y = _jumpSpeed;
 			}
-			moveDirection.y -= gravity * Time.deltaTime;
-			return moveDirection;
+			_moveDirection.y -= _gravity * Time.deltaTime;
+			return _moveDirection;
 		}
 	}
 

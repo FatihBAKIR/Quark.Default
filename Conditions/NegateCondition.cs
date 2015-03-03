@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Quark.Spells;
 using Quark;
 
 public class NegateCondition : Condition
@@ -30,7 +30,7 @@ public class NegateCondition : Condition
 		return !_cond.Check (point);
 	}
 
-	public override void SetContext (Quark.Spell.Cast context)
+	public override void SetContext (Cast context)
 	{
 		base.SetContext (context);
 		_cond.SetContext (context);

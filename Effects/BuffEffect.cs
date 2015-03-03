@@ -1,5 +1,6 @@
-﻿using Quark.Buff;
-using Quark;
+﻿using Quark;
+using Quark.Buffs;
+
 /// <summary>
 /// This effect attaches the given Buff objects to the target Character
 /// </summary>
@@ -29,7 +30,6 @@ public class BuffEffect : Effect
 			target.AttachBuff (buff);
 		}
 		new EffectArgs (this, target).Broadcast ();
-		base.Apply (target);
 	}
 }
 
