@@ -6,7 +6,7 @@ public class BoomSpell : Spell
 {
     public BoomSpell()
     {
-        Tags = new TagCollection { "damage" };
+        Tags = new StaticTags { "damage" };
     }
 
     public override TargetMacro TargetMacro
