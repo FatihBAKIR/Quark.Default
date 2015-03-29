@@ -1,9 +1,13 @@
 ﻿using Quark;
-using Quark.Spells;
 using Quark.Targeting;
 
-public class IgniteSpell : Spell
+public class IgniteSpell : ManaCostSpell
 {
+    public IgniteSpell ()
+    {
+        ManaCost = 30;
+    }
+
 	public override TargetMacro TargetMacro {
 		get {
 			return new NearestCharacter(5);
@@ -12,7 +16,7 @@ public class IgniteSpell : Spell
 
 	protected override EffectCollection TargetingDoneEffects {
 		get {
-			return new EffectCollection {
+			return base.TargetingDoneEffects + new EffectCollection {
 				new BuffEffect(new DoTBuff(1, 10, 10))
 			};
 		}

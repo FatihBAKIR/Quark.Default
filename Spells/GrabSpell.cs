@@ -1,4 +1,5 @@
-﻿using Quark;
+﻿using Assets.QuarkDefault.Items;
+using Quark;
 using Quark.Spells;
 using Quark.Targeting;
 
@@ -15,7 +16,7 @@ public class GrabSpell : Spell
         {
             return new EffectCollection
             {
-                new CasterEffect(new GrabEffect(new LogItem()))
+                new CasterEffect(new GrabEffect(new Boots()))
             };
         }
     }

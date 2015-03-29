@@ -29,6 +29,7 @@ public class BuffEffect : Effect
 			buff.SetContext (Context);
 			target.AttachBuff (buff);
 		}
+
 		new EffectArgs (this, target).Broadcast ();
 	}
 }

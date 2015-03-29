@@ -13,10 +13,8 @@ public class StatEffect : Effect
 	readonly Interaction _targetInteractions;
 	readonly float _constant;
 
-	public StatEffect (string statTag, float constant)
+	public StatEffect (string statTag, float constant) : this(statTag, null, null, constant)
 	{
-		_tag = statTag;
-		_constant = constant;
 	}
 
 	public StatEffect (string statTag, Interaction casterInteractions, Interaction targetInteractions, float constant = 0)
