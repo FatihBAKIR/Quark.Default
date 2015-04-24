@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using Quark.Missiles;
+using Quark.Projectiles;
 
-public class HomingProjectile : MissileController {
+public class HomingProjectile : ProjectileController {
     public override MovementType Type
     {
         get { return MovementType.ReturnsMovement; }

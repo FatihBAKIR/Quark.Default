@@ -31,7 +31,6 @@ class CasterEffect : Effect
         if (_applyCount > 0)
             return;
         _applyCount++;
-        Debug.Log(_effect.Name + " -> " + Context.Caster.name);
         _effect.SetContext(Context);
         _effect.Apply(Context.Caster);
     }

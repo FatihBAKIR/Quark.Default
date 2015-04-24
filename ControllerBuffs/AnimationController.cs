@@ -1,5 +1,4 @@
 ﻿using Quark.Buffs;
-//using UnityEditorInternal;
 using UnityEngine;
 
 class AnimationController : Buff
@@ -29,7 +28,6 @@ class AnimationController : Buff
 
     protected override void OnTick()
     {
-        //_animator.IsInTransition()
         if (IsAnimActive(_fadingAnim))
             _fadingAnim = "";
         base.OnTick();

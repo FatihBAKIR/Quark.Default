@@ -28,7 +28,7 @@ namespace Assets.QuarkDefault.Effects
         {
             float casterVal = _casterInteraction == null ? 0 : _casterInteraction.Calculate(Context.Caster);
             float targetVal = _targetInteraction == null ? 0 : _targetInteraction.Calculate(of);
-
+            
             return casterVal + targetVal;
         }
 

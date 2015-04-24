@@ -17,7 +17,7 @@ public class IgniteSpell : ManaCostSpell
 	protected override EffectCollection TargetingDoneEffects {
 		get {
 			return base.TargetingDoneEffects + new EffectCollection {
-				new BuffEffect(new DoTBuff(1, 10, 10))
+				new BuffEffect(new DoTBuff(1, 10, -10))
 			};
 		}
 	}

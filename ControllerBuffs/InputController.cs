@@ -1,4 +1,5 @@
 ﻿using Assets.QuarkDefault.Effects;
+using Assets.QuarkDefault.Spells;
 using UnityEngine;
 using Quark;
 using Quark.Buffs;
@@ -25,7 +26,6 @@ public class PlayerController : Buff
         _gravity = new Vector3(0, Gravity, 0);
     }
 
-    float _moveSpeed = 4;
     CharacterController _controller;
 
     float MoveSpeed
@@ -45,11 +45,10 @@ public class PlayerController : Buff
 
     Vector3 _move = Vector3.zero;
     Vector3 _rotate = Vector3.zero;
-    readonly Vector3 _gravity = Vector3.zero;
+    readonly Vector3 _gravity;
 
     void Calc()
     {
-        Debug.Log(MoveSpeed);
         if (_controller.isGrounded)
         {
             _rotate = new Vector3(0, Input.GetAxis("Horizontal") * RotateSpeed, 0);
@@ -86,11 +85,13 @@ public class PlayerController : Buff
 
     void OnMove()
     {
+        TargetMoveSpeed = MoveSpeed / 3.5f;
         MoveEffects.Run(Possessor, Context);
     }
 
     void OnStop()
     {
+        TargetMoveSpeed = 0;
         StopEffects.Run(Possessor, Context);
     }
 
@@ -110,8 +111,20 @@ public class PlayerController : Buff
         {
             return new EffectCollection
             {
-                new AnimateEffect("idle")
             };
+        }
+    }
+
+    float TargetMoveSpeed { get; set; }
+    private float _moveVelocity;
+    private float _currentms;
+
+    float CurrentMoveSpeed
+    {
+        get
+        {
+            _currentms = Mathf.SmoothDamp(_currentms, TargetMoveSpeed, ref _moveVelocity, 0.2f);
+            return _currentms;
         }
     }
 
@@ -122,8 +135,9 @@ public class PlayerController : Buff
             return new EffectCollection {
                 new RotateEffect(Possessor.transform.rotation.eulerAngles + _rotate),
 				new ControllerMoveEffect ((_move) * Time.deltaTime),
-                IsMoving ? new AnimateEffect("run") : new Effect()
+                new MecanimEffect("Speed Input", CurrentMoveSpeed) 
 			};
         }
     }
 }
+    

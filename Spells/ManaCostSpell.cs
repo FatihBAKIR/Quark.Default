@@ -13,6 +13,6 @@ public class ManaCostSpell : Spell
 
     protected override EffectCollection TargetingDoneEffects
     {
-        get { return base.TargetingDoneEffects + new EffectCollection { new CasterEffect(new StatEffect("mana", ManaCost)) }; }
+        get { return base.TargetingDoneEffects + new EffectCollection { new CasterEffect(new StatEffect("mana", -ManaCost)) }; }
     }
 }

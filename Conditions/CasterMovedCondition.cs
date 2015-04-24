@@ -9,6 +9,6 @@ public class CasterMovedCondition : Condition
 {
 	public override bool Check ()
 	{
-		return Vector3.Distance (Context.CastBeginPoint, Context.Caster.transform.position) >= Quark.Missiles.Missile.NearEnough;
+		return Vector3.Distance (Context.CastBeginPoint, Context.Caster.transform.position) >= Quark.Projectiles.Projectile.NearEnough;
 	}
 }
