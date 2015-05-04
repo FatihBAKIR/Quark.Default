@@ -30,69 +30,97 @@ public class ConditionalEffect : Effect
 
     public override void Apply()
     {
-        _condition.SetContext(Context);
-        _onTrue.SetContext(Context);
+        if (_onTrue != null)
+            _onTrue.SetContext(Context);
+        if (_onFalse != null)
+            _onFalse.SetContext(Context);
 
         if (_condition == null)
+        {
             if (_boolean)
                 _onTrue.Apply();
             else if (_onFalse != null)
                 _onFalse.Apply();
-
-        if (_condition.Check())
-            _onTrue.Apply();
-        else if (_onFalse != null)
-            _onFalse.Apply();
+        }
+        else
+        {
+            _condition.SetContext(Context);
+            if (_condition.Check())
+                _onTrue.Apply();
+            else if (_onFalse != null)
+                _onFalse.Apply();
+        }
     }
 
     public override void Apply(Vector3 point)
     {
-        _condition.SetContext(Context);
-        _onTrue.SetContext(Context);
+        if (_onTrue != null)
+            _onTrue.SetContext(Context);
+        if (_onFalse != null)
+            _onFalse.SetContext(Context);
 
         if (_condition == null)
+        {
             if (_boolean)
                 _onTrue.Apply(point);
             else if (_onFalse != null)
                 _onFalse.Apply(point);
-
-        if (_condition.Check(point))
-            _onTrue.Apply(point);
-        else if (_onFalse != null)
-            _onFalse.Apply(point);
+        }
+        else
+        {
+            _condition.SetContext(Context);
+            if (_condition.Check(point))
+                _onTrue.Apply(point);
+            else if (_onFalse != null)
+                _onFalse.Apply(point);
+        }
     }
 
     public override void Apply(Targetable target)
     {
-        _condition.SetContext(Context);
-        _onTrue.SetContext(Context);
+        if (_onTrue != null)
+            _onTrue.SetContext(Context);
+        if (_onFalse != null)
+            _onFalse.SetContext(Context);
 
         if (_condition == null)
+        {
             if (_boolean)
                 _onTrue.Apply(target);
             else if (_onFalse != null)
                 _onFalse.Apply(target);
-
-        if (_condition.Check(target))
-            _onTrue.Apply(target);
-        else if (_onFalse != null)
-            _onFalse.Apply(target);
+        }
+        else
+        {
+            _condition.SetContext(Context);
+            if (_condition.Check(target))
+                _onTrue.Apply(target);
+            else if (_onFalse != null)
+                _onFalse.Apply(target);
+        }
     }
 
     public override void Apply(Character target)
     {
-        _condition.SetContext(Context);
-        _onTrue.SetContext(Context);
+        if (_onTrue != null)
+            _onTrue.SetContext(Context);
+        if (_onFalse != null)
+            _onFalse.SetContext(Context);
 
         if (_condition == null)
+        {
             if (_boolean)
                 _onTrue.Apply(target);
             else if (_onFalse != null)
                 _onFalse.Apply(target);
-
-        if (_condition.Check(target))
-            _onTrue.Apply(target);
-        else if (_onFalse != null)
-            _onFalse.Apply(target);
+        }
+        else
+        {
+            _condition.SetContext(Context);
+            if (_condition.Check(target))
+                _onTrue.Apply(target);
+            else if (_onFalse != null)
+                _onFalse.Apply(target);
+        }
     }
 }

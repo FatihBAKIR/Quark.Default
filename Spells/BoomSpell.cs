@@ -25,7 +25,7 @@ public class BoomSpell : Spell
         }
     }
 
-    protected override EffectCollection TargetingDoneEffects 
+    protected override EffectCollection TargetingDoneEffects
     {
         get
         {
