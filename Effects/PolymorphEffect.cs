@@ -1,7 +1,7 @@
 ﻿using Quark;
 using UnityEngine;
 
-namespace Assets.Quark.Effects
+namespace Assets.QuarkDefault.Effects
 {
     class PolymorphEffect : Effect
     {

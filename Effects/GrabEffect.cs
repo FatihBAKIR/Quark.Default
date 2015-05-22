@@ -1,16 +1,19 @@
 ﻿using Quark;
 
-public class GrabEffect : Effect
+namespace Assets.QuarkDefault.Effects
 {
-    private Item _item;
-
-    public GrabEffect(Item item)
+    public class GrabEffect : Effect
     {
-        _item = item;
-    }
+        private Item _item;
 
-    public override void Apply(Character target)
-    {
-        target.AddItem(_item);
+        public GrabEffect(Item item)
+        {
+            _item = item;
+        }
+
+        public override void Apply(Character target)
+        {
+            target.AddItem(_item);
+        }
     }
 }

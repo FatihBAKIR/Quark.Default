@@ -1,143 +1,98 @@
-﻿using Assets.QuarkDefault.Effects;
-using Assets.QuarkDefault.Spells;
+﻿using System;
+using Quark.Utilities;
 using UnityEngine;
+using System.Collections.Generic;
 using Quark;
-using Quark.Buffs;
+using Quark.Spells;
 
-/*
- * #### WARNING ####
- * THIS ASSET IS VERY VERY EXPERIMENTAL
- * AND DEFINITELY GOING TO CHANGE IN THE NEAR FUTURE
- * DO NOT RELY ON IT
- * ####
- */
-
-public class PlayerController : Buff
+namespace Assets.QuarkDefault.ControllerBuffs
 {
-    private const float JumpSpeed = 6;
-    private const float Gravity = 12;
-    private const float RotateSpeed = 3;
-
-    public PlayerController()
+    interface IBinding
     {
-        Duration = -1;
-        Hidden = true;
-        Continuous = true;
-        _gravity = new Vector3(0, Gravity, 0);
+        bool Check(string prefix);
+        void Activate(Character caster);
     }
 
-    CharacterController _controller;
-
-    float MoveSpeed
+    public class KeyBinding<T> : IBinding where T : Spell, new()
     {
-        get { return Possessor.GetStat("ms").Value; }
-    }
+        readonly KeyCode _key;
+        private readonly string _button;
 
-    public override void OnPossess()
-    {
-        _controller = Possessor.GetComponent<CharacterController>();
-    }
 
-    bool IsMoving
-    {
-        get { return Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f; }
-    }
-
-    Vector3 _move = Vector3.zero;
-    Vector3 _rotate = Vector3.zero;
-    readonly Vector3 _gravity;
-
-    void Calc()
-    {
-        if (_controller.isGrounded)
+        public KeyBinding(string button)
         {
-            _rotate = new Vector3(0, Input.GetAxis("Horizontal") * RotateSpeed, 0);
-            _move = Possessor.transform.forward * Input.GetAxis("Vertical") * MoveSpeed;
-
-            if (Input.GetButton("Jump"))
-                _move.y = JumpSpeed;
-        }
-        else
-            _rotate = Vector3.zero;
-
-        _move -= _gravity * Time.deltaTime;
-    }
-
-    private bool _wasMoving;
-    protected override void OnTick()
-    {
-        Calc();
-
-        if (IsMoving && !_wasMoving)
-        {
-            OnMove();
-            _wasMoving = true;
+            _button = button;
         }
 
-        if (!IsMoving && _wasMoving)
+        public bool Check(string prefix)
         {
-            OnStop();
-            _wasMoving = false;
+            return (Input.GetButtonUp(prefix + _button));
         }
 
-        base.OnTick();
-    }
-
-    void OnMove()
-    {
-        TargetMoveSpeed = MoveSpeed / 3.5f;
-        MoveEffects.Run(Possessor, Context);
-    }
-
-    void OnStop()
-    {
-        TargetMoveSpeed = 0;
-        StopEffects.Run(Possessor, Context);
-    }
-
-    private EffectCollection MoveEffects
-    {
-        get
+        public void Activate(Character caster)
         {
-            return new EffectCollection
+            Cast.PrepareCast(caster, new T());
+        }
+    }
+
+    class InputController : QuarkController
+    {
+        private readonly string _inputPrefix;
+
+        public InputController()
+        {
+            _inputPrefix = "";
+        }
+
+        public InputController(string prefix)
+        {
+            _inputPrefix = prefix + " ";
+        }
+
+        protected override bool IsMoving
+        {
+            get { return Mathf.Abs(Input.GetAxis(_inputPrefix + "Vertical")) > 0.1f; }
+        }
+
+        private Vector3 _move;
+        protected override Vector3 Movement
+        {
+            get
             {
-            };
-        }
-    }
+                if (IsGrounded)
+                {
+                    _move = Possessor.transform.forward * Mathf.Round(Input.GetAxis(_inputPrefix + "Vertical")) * MoveSpeed;
 
-    private EffectCollection StopEffects
-    {
-        get
+                    if (Input.GetButton(_inputPrefix + "Jump"))
+                        _move.y = JumpSpeed;
+                }
+
+                _move -= Gravity * Time.deltaTime;
+                return _move;
+            }
+        }
+
+        protected override Vector3 Rotation
         {
-            return new EffectCollection
+            get
             {
-            };
+                return IsGrounded ? new Vector3(0, Mathf.Round(Input.GetAxis(_inputPrefix + "Horizontal")) * RotateSpeed, 0) : Vector3.zero;
+            }
         }
-    }
 
-    float TargetMoveSpeed { get; set; }
-    private float _moveVelocity;
-    private float _currentms;
-
-    float CurrentMoveSpeed
-    {
-        get
+        protected override void OnTick()
         {
-            _currentms = Mathf.SmoothDamp(_currentms, TargetMoveSpeed, ref _moveVelocity, 0.2f);
-            return _currentms;
+            base.OnTick();
+            CheckBindings();
         }
-    }
 
-    protected override EffectCollection TickEffects
-    {
-        get
+        void CheckBindings()
         {
-            return new EffectCollection {
-                new RotateEffect(Possessor.transform.rotation.eulerAngles + _rotate),
-				new ControllerMoveEffect ((_move) * Time.deltaTime),
-                new MecanimEffect("Speed Input", CurrentMoveSpeed) 
-			};
+            foreach (IBinding binding in Bindings)
+                if (binding.Check(_inputPrefix))
+                    binding.Activate(Possessor);
         }
+
+        public List<IBinding> Bindings = new List<IBinding>();
     }
 }
-    

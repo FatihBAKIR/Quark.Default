@@ -1,25 +1,29 @@
-﻿using Quark;
+﻿using Assets.QuarkDefault.ControllerBuffs;
+using Quark;
 using UnityEngine;
 
-public class AnimateEffect : Effect
+namespace Assets.QuarkDefault.Effects
 {
-    private string _anim;
-    private bool _replayOnExists;
-    public AnimateEffect(string animName, bool replayOnExists = false)
+    public class AnimateEffect : Effect
     {
-        _anim = animName;
-        _replayOnExists = replayOnExists;
-    }
+        private string _anim;
+        private bool _replayOnExists;
+        public AnimateEffect(string animName, bool replayOnExists = false)
+        {
+            _anim = animName;
+            _replayOnExists = replayOnExists;
+        }
 
-    public override void Apply(Targetable target)
-    {
-        Animator anim = target.GetComponent<Animator>();
-        anim.Play(_anim, -1);
-    }
+        public override void Apply(Targetable target)
+        {
+            Animator anim = target.GetComponent<Animator>();
+            anim.Play(_anim, -1);
+        }
 
-    public override void Apply(Character target)
-    {
-        AnimationController ac = (AnimationController)target.GetHidden(new AnimationController());
-        ac.SwitchAnim(_anim, _replayOnExists);
+        public override void Apply(Character target)
+        {
+            AnimationController ac = (AnimationController)target.GetHidden(new AnimationController());
+            ac.SwitchAnim(_anim, _replayOnExists);
+        }
     }
 }

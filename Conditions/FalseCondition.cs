@@ -1,8 +1,11 @@
 ﻿using Quark;
 
-public class FalseCondition : NegateCondition
+namespace Assets.QuarkDefault.Conditions
 {
-	public FalseCondition () : base (new Condition ())
-	{
-	}
+    public class FalseCondition : NegateCondition
+    {
+        public FalseCondition () : base (new Condition ())
+        {
+        }
+    }
 }

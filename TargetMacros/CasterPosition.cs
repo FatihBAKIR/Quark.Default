@@ -1,14 +1,17 @@
 ﻿using Quark.Targeting;
 
-/// <summary>
-/// This macro selects Context.Caster Character
-/// </summary>
-public class CasterPosition : TargetMacro
+namespace Assets.QuarkDefault.TargetMacros
 {
-    public override void Run()
+    /// <summary>
+    /// This macro selects Context.Caster Character
+    /// </summary>
+    public class CasterPosition : TargetMacro
     {
-        OnTargetSelected(Context.Caster.transform.position);
-        OnTargetingSuccess();
+        public override void Run()
+        {
+            OnTargetSelected(Context.Caster.transform.position);
+            OnTargetingSuccess();
+        }
     }
 }
 

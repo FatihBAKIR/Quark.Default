@@ -1,23 +1,24 @@
-﻿using UnityEngine;
-using System.Collections;
-using Quark;
+﻿using Quark;
 
-public class TagCondition : Condition
+namespace Assets.QuarkDefault.Conditions
 {
-    private readonly string _tag;
-
-    public TagCondition(string tag)
+    public class TagCondition : Condition
     {
-        _tag = tag;
-    }
+        private readonly string _tag;
 
-    public override bool Check(Character character)
-    {
-        return Check((Targetable)character);
-    }
+        public TagCondition(string tag)
+        {
+            _tag = tag;
+        }
 
-    public override bool Check(Targetable targetable)
-    {
-        return targetable.IsTagged(_tag);
+        public override bool Check(Character character)
+        {
+            return Check((Targetable)character);
+        }
+
+        public override bool Check(Targetable targetable)
+        {
+            return targetable.IsTagged(_tag);
+        }
     }
 }

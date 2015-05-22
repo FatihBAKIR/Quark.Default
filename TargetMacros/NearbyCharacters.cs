@@ -1,74 +1,58 @@
-﻿using Quark.Targeting;
+﻿using System.Collections.Generic;
 using Quark;
+using Quark.Targeting;
 using UnityEngine;
-using System.Collections.Generic;
 
-/// <summary>
-/// This macro selects every targetable Character within a given radius around a point or the Caster
-/// </summary>
-public class NearbyCharacters : TargetMacro
+namespace Assets.QuarkDefault.TargetMacros
 {
-	protected Vector3 _point;
-	protected float _range;
-	protected bool _nearCaster;
+    /// <summary>
+    /// This macro selects every targetable Character within a given radius around a point or the Caster
+    /// </summary>
+    public class NearbyCharacters : TargetMacro
+    {
+        protected Vector3 _point;
+        protected float _range;
+        protected bool _nearCaster;
 
-	public NearbyCharacters(float range) : base()
-	{
-		_range = range;
-		_nearCaster = true;
-	}
+        public NearbyCharacters(float range) : base()
+        {
+            _range = range;
+            _nearCaster = true;
+        }
 
-	public NearbyCharacters (Vector3 point, float range)
-	{
-		_point = point;
-		_range = range;
-	}
+        public NearbyCharacters (Vector3 point, float range)
+        {
+            _point = point;
+            _range = range;
+        }
 
-	protected virtual Character[] ClosestCharacters ()
-	{
-		Collider[] closeObjects = Physics.OverlapSphere (_point, _range);
+        protected virtual Character[] ClosestCharacters ()
+        {
+            Collider[] closeObjects = Physics.OverlapSphere (_point, _range);
 
-		List<Character> chars = new List<Character> ();
+            List<Character> chars = new List<Character> ();
 
-		foreach (Collider obj in closeObjects) {
-			if (obj.GetComponent<Character> () == null)
-				continue;
-			chars.Add (obj.GetComponent<Character> ());
-		}
+            foreach (Collider obj in closeObjects) {
+                if (obj.GetComponent<Character> () == null)
+                    continue;
+                if (chars.Contains(obj.GetComponent<Character>()))
+                    continue;
+                if (obj.gameObject.Equals(Caster.gameObject))
+                    continue;
+                
+                chars.Add (obj.GetComponent<Character> ());
+            }
 
-		return chars.ToArray ();
-	}
+            return chars.ToArray ();
+        }
 
-	public override void Run ()
-	{
-		if (_nearCaster)
-			_point = Context.Caster.transform.position;
-		foreach (Character target in ClosestCharacters())
-			OnTargetSelected (target);
-		OnTargetingSuccess ();
-	}
-}
-
-public class NearbyCharacters <T> : NearbyCharacters where T : MonoBehaviour
-{
-	public NearbyCharacters(Vector3 point, float range) : base(point, range)
-	{
-	}
-
-	protected override Character[] ClosestCharacters ()
-	{
-		Collider[] closeObjects = Physics.OverlapSphere (_point, _range);
-
-		List<Character> chars = new List<Character> ();
-
-		foreach (Collider obj in closeObjects) {
-			if (obj.GetComponent<Character> () == null)
-				continue;
-			if (obj.GetComponent<T> () == null)
-				continue;
-			chars.Add (obj.GetComponent<Character> ());
-		}
-
-		return chars.ToArray ();
-	}
+        public override void Run ()
+        {
+            if (_nearCaster)
+                _point = Context.Caster.transform.position;
+            foreach (Character target in ClosestCharacters())
+                OnTargetSelected (target);
+            OnTargetingSuccess ();
+        }
+    }
 }

@@ -1,16 +1,19 @@
-﻿using Quark;
-using QuarkDefault.Effects;
+﻿using Assets.QuarkDefault.Effects;
+using Quark;
 
-public class LogItem : Item
+namespace Assets.QuarkDefault.Items
 {
-    protected override EffectCollection GrabEffects
+    public class LogItem : Item
     {
-        get
+        protected override EffectCollection GrabEffects
         {
-            return new EffectCollection
+            get
             {
-                new LogEffect("Item Grabbed: " + Identifier)
-            };
+                return new EffectCollection
+                {
+                    new LogEffect("Item Grabbed: " + Identifier)
+                };
+            }
         }
     }
 }

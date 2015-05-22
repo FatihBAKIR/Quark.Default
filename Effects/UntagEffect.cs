@@ -1,20 +1,23 @@
 ﻿using Quark;
 
-class UntagEffect : Effect
+namespace Assets.QuarkDefault.Effects
 {
-    private readonly string _tag;
-    public UntagEffect(string tag)
+    class UntagEffect : Effect
     {
-        _tag = tag;
-    }
+        private readonly string _tag;
+        public UntagEffect(string tag)
+        {
+            _tag = tag;
+        }
 
-    public override void Apply(Targetable target)
-    {
-        target.Untag(_tag);
-    }
+        public override void Apply(Targetable target)
+        {
+            target.Untag(_tag);
+        }
 
-    public override void Apply(Character target)
-    {
-        Apply((Targetable)target);
+        public override void Apply(Character target)
+        {
+            Apply((Targetable)target);
+        }
     }
 }

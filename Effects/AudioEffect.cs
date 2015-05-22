@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Quark;
+﻿using Quark;
 using UnityEngine;
 
-class AudioEffect : Effect
+namespace Assets.QuarkDefault.Effects
 {
-    private readonly AudioClip _clip;
-
-    public AudioEffect(AudioClip clip)
+    class AudioEffect : Effect
     {
-        _clip = clip;
-    }
+        private readonly AudioClip _clip;
 
-    public override void Apply(Character target)
-    {
-        AudioSource source = target.GetComponent<AudioSource>();
-        source.PlayOneShot(_clip);
-        base.Apply(target);
+        public AudioEffect(AudioClip clip)
+        {
+            _clip = clip;
+        }
+
+        public override void Apply(Character target)
+        {
+            AudioSource source = target.GetComponent<AudioSource>();
+            source.PlayOneShot(_clip);
+            base.Apply(target);
+        }
     }
 }
