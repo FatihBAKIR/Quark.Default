@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using Quark;
 using Quark.Spells;
 using UnityEngine;

@@ -1,8 +1,6 @@
 ﻿using Assets.QuarkDefault.Effects;
 using Quark;
 using Quark.Buffs;
-using UnityEngine;
-
 namespace Assets.QuarkDefault.Buffs
 {
     class CooldownBuff : Buff
@@ -28,7 +26,6 @@ namespace Assets.QuarkDefault.Buffs
         {
             get
             {
-                Debug.Log("cd!");
                 return new EffectCollection
                 {
                     new TagEffect(_tag)
@@ -40,7 +37,6 @@ namespace Assets.QuarkDefault.Buffs
         {
             get
             {
-                Debug.Log("done!");
                 return new EffectCollection
                 {
                     new UntagEffect(_tag)

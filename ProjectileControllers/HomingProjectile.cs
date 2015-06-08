@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Assets.QuarkDefault.ProjectileControllers
 {
-    public class HomingProjectile : ProjectileController {
-
+    public class HomingProjectile : ProjectileController
+    {
         protected override ControlType Type
         {
             get { return ControlType.Movement; }
