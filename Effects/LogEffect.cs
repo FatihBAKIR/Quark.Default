@@ -1,7 +1,7 @@
 ﻿using Quark;
 using UnityEngine;
 
-namespace QuarkDefault.Effects
+namespace Assets.QuarkDefault.Effects
 {
     public class LogEffect : Effect
     {

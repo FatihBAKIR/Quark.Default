@@ -30,7 +30,8 @@ namespace Assets.QuarkDefault.Conditions
         /// Initializes a resource condition that checks whether the target Characters given Attribute is greater than zero 
         /// </summary>
         /// <param name="tag">Tag of the attribute</param>
-        public ResourceCondition(string tag) : this(tag, 0)
+        public ResourceCondition(string tag)
+            : this(tag, 0)
         {
         }
 
@@ -40,7 +41,8 @@ namespace Assets.QuarkDefault.Conditions
         /// <param name="tag">Tag of the stat</param>
         /// <param name="percentage">Flag that indicates we should check percentage</param>
         /// <param name="rate">Rate to check with</param>
-        public ResourceCondition(string tag, bool percentage, float rate) : this (tag, rate)
+        public ResourceCondition(string tag, bool percentage, float rate)
+            : this(tag, rate)
         {
             _checker = Percentage;
         }
@@ -50,14 +52,15 @@ namespace Assets.QuarkDefault.Conditions
         /// </summary>
         /// <param name="tag">Tag of the stat or the attribute</param>
         /// <param name="custom">The method to be called when checking</param>
-        public ResourceCondition(string tag, AttributeChecker custom) : this(tag, 0)
+        public ResourceCondition(string tag, AttributeChecker custom)
+            : this(tag, 0)
         {
             _checker = custom;
         }
 
         bool Percentage(Attribute attr)
         {
-            Stat stat = (Stat) attr;
+            Stat stat = (Stat)attr;
             if (stat == null)
                 throw new Exception("Given Attribute is not a Stat");
 
@@ -66,14 +69,13 @@ namespace Assets.QuarkDefault.Conditions
 
         bool Default(Attribute attr)
         {
-            return attr.Value > _amount;
+            return attr.Value >= _amount;
         }
 
         public override bool Check(Character character)
         {
             Attribute attr = character.GetAttribute(_tag);
-            Debug.Log(attr.Value);
-           return _checker(attr);
+            return _checker(attr);
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using Quark;
-using UnityEngine;
+﻿using Quark;
 
-namespace AssemblyCSharpvs
+namespace Assets.QuarkDefault.Effects
 {
     public class HealEffect : StatEffect
     {

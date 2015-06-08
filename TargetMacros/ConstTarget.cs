@@ -2,7 +2,7 @@
 using Quark.Targeting;
 using UnityEngine;
 
-namespace Assets.Quark.TargetMacros
+namespace Assets.QuarkDefault.TargetMacros
 {
     class ConstTarget : TargetMacro
     {

@@ -1,4 +1,5 @@
 ﻿using Assets.QuarkDefault.Buffs;
+using Assets.QuarkDefault.Effects;
 using Quark;
 
 namespace Assets.QuarkDefault.Items

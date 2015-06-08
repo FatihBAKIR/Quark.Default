@@ -1,14 +1,18 @@
-﻿using UnityEngine;
-using Quark.Projectiles;
+﻿using Quark.Projectiles;
+using UnityEngine;
 
-public class HomingProjectile : ProjectileController {
-    public override MovementType Type
-    {
-        get { return MovementType.ReturnsMovement; }
-    }
+namespace Assets.QuarkDefault.ProjectileControllers
+{
+    public class HomingProjectile : ProjectileController {
 
-    public override Vector3 Movement
-    {
-        get { return (Target - Obj.transform.position).normalized * Time.deltaTime * 5; }
+        protected override ControlType Type
+        {
+            get { return ControlType.Movement; }
+        }
+
+        public override Vector3 Movement
+        {
+            get { return (Target.AsPoint() - Projectile.transform.position).normalized * Time.deltaTime * 5; }
+        }
     }
 }

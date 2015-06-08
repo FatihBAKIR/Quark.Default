@@ -1,26 +1,28 @@
-﻿using System;
-using Quark;
+﻿using Quark;
 
-public class DamageEffect : StatEffect
+namespace Assets.QuarkDefault.Effects
 {
-	public DamageEffect(Interaction casterInteractions, Interaction targetInteractions, float constant = 0) : base("hp", casterInteractions, targetInteractions, constant)
-	{
-	}
-
-	public DamageEffect(float constant) : base ("hp", constant)
-	{
-	}
-
-    protected override float CalculateValue(Character of)
+    public class DamageEffect : StatEffect
     {
-        return -base.CalculateValue(of);
-    }
+        public DamageEffect(Interaction casterInteractions, Interaction targetInteractions, float constant = 0) : base(QuarkDefault.Tags.Attributes.Health, casterInteractions, targetInteractions, constant)
+        {
+        }
 
-    public override void Apply(Character target)
-    {
-        if (target.IsTagged(DefaultTags.Invulnerable))
-            return;
+        public DamageEffect(float constant) : base (QuarkDefault.Tags.Attributes.Health, constant)
+        {
+        }
 
-        base.Apply(target);
+        protected override float CalculateValue(Character of)
+        {
+            return -base.CalculateValue(of);
+        }
+
+        public override void Apply(Character target)
+        {
+            if (target.IsTagged(QuarkDefault.Tags.Invulnerable))
+                return;
+
+            base.Apply(target);
+        }
     }
 }

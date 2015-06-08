@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Assets.QuarkDefault.Conditions
+﻿namespace Assets.QuarkDefault.Conditions
 {
     class ManaCondition : ResourceCondition
     {
