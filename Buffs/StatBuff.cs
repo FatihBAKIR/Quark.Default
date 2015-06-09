@@ -8,25 +8,25 @@ namespace Assets.QuarkDefault.Buffs
     {
         private string _tag;
         private Interaction _interaction;
+        private float _amount;
 
-        public StatBuff(string tag, float constant)
-            : this(tag, new Interaction { { null, constant } })
+        public StatBuff(string tag, float constant, float duration)
+            : this(tag, new Interaction { { null, constant } }, duration)
         {
-
         }
 
-        public StatBuff(string tag, Interaction interaction)
+        public StatBuff(string tag, Interaction interaction, float duration)
         {
             _tag = tag;
             _interaction = interaction;
+            Duration = duration;
+            Interval = 100000;
         }
 
         void Calculate()
         {
             _amount = _interaction.Calculate(Possessor);
         }
-
-        private float _amount;
 
         protected override EffectCollection PossessEffects
         {

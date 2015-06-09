@@ -10,7 +10,7 @@ namespace Assets.QuarkDefault.Items
         {
             get { return new EffectCollection
             {
-                new BuffEffect(new StatBuff("ms", 2))
+                new BuffEffect(new StatBuff("ms", 2, 10))
             }; }
         }
     }
