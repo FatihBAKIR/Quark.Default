@@ -1,5 +1,6 @@
 ﻿using Quark;
 using Quark.Targeting;
+using Quark.Utilities;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.TargetMacros
@@ -50,7 +51,10 @@ namespace Assets.QuarkDefault.TargetMacros
         public override void Run ()
         {
             if (_nearCaster)
+            {
+                Logger.Assert(Context != null);
                 _point = Caster.transform.position;
+            }
 
             Character closest = ClosestCharacter ();
             if (closest != null) {

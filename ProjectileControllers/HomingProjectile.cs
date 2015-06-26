@@ -1,18 +1,26 @@
-﻿using Quark.Projectiles;
+﻿using Quark;
+using Quark.Projectiles;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.ProjectileControllers
 {
     public class HomingProjectile : ProjectileController
     {
-        protected override ControlType Type
+        private float Speed;
+
+        public HomingProjectile(float speed = 5)
         {
-            get { return ControlType.Movement; }
+            Type = ControlType.Movement;
+            Speed = speed;
         }
 
-        public override Vector3 Movement
+        protected override Vector3 CalculateMovement 
         {
-            get { return (Target.AsPoint() - Projectile.transform.position).normalized * Time.deltaTime * 5; }
+            get
+            {
+                Debug.DrawLine(TargetPoint, Projectile.transform.position);
+                return (TargetPoint - Projectile.transform.position).normalized * Time.deltaTime * Speed;
+            }
         }
     }
 }

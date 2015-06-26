@@ -137,7 +137,7 @@ namespace Assets.QuarkDefault.ControllerBuffs
         public override void OnPossess()
         {
             base.OnPossess();
-            _searcher = new NearestCharacter(6);
+            _searcher = new NearestCharacter(6) { DontClearUponFinish = true };
             _searcher.SetContext(Cast.PrepareCast(Possessor, new Spell()), true);
             _searcher.TargetingSuccess += CharacterOnTargetingSuccess;
             _searcher.TargetingFailed += SearcherOnTargetingFailed;

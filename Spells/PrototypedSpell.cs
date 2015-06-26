@@ -1,15 +1,32 @@
 using Quark;
 using Quark.Spells;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Assets.QuarkDefault.Spells
 {
     class PrototypedSpell : Spell
     {
-        protected virtual Spell[] Prototypes
+        public PrototypedSpell()
         {
-            get;
-            set;
+            Prototypes = new List<Spell>();
+        }
+
+        public PrototypedSpell(Spell[] prototypes)
+        {
+            Prototypes = new List<Spell>(prototypes);
+        }
+
+        protected List<Spell> Prototypes { get; private set; }
+
+        public void AddPrototype(Spell prototype)
+        {
+            Prototypes.Add(prototype);
+        }
+
+        public void RemovePrototype(Spell prototype)
+        {
+            Prototypes.Remove(prototype);
         }
 
         public override bool CanInvoke()
