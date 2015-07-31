@@ -1,16 +1,28 @@
 ﻿using Assets.QuarkDefault.Effects;
-using Quark;
 using Quark.Buffs;
+using Quark.Contexts;
+using Quark.Effects;
+using UnityEngine;
+
 namespace Assets.QuarkDefault.Buffs
 {
-    class CooldownBuff : Buff
+    class CooldownBuff : Buff<ICastContext>
     {
+        private bool _fromContext;
+        private string _cooldownTag;
+
+        public CooldownBuff(string tag, float duration)
+            : this(duration)
+        {
+            _fromContext = false;
+            _cooldownTag = tag;
+        }
+
         public CooldownBuff(float duration)
         {
+            _fromContext = true;
             Hidden = true;
-
             Duration = duration;
-
             Interval = 10000;
         }
 
@@ -18,26 +30,26 @@ namespace Assets.QuarkDefault.Buffs
 
         public override void OnPossess()
         {
-            _tag = Context.Spell.Identifier + ".Cooldown";
+            _tag = (_fromContext ? Context.Spell.Identifier : _cooldownTag) + ".Cooldown";
             base.OnPossess();
         }
 
-        protected override EffectCollection PossessEffects
+        protected override EffectCollection<ICastContext> PossessEffects
         {
             get
             {
-                return new EffectCollection
+                return new EffectCollection<ICastContext>
                 {
                     new TagEffect(_tag)
                 };
             }
         }
 
-        protected override EffectCollection DoneEffects
+        protected override EffectCollection<ICastContext> DoneEffects
         {
             get
             {
-                return new EffectCollection
+                return new EffectCollection<ICastContext>
                 {
                     new UntagEffect(_tag)
                 };

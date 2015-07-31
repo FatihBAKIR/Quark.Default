@@ -1,24 +1,34 @@
 ﻿using Quark;
 using Quark.Buffs;
+using Quark.Conditions;
+using Quark.Contexts;
 
 namespace Assets.QuarkDefault.Conditions
 {
-    class BuffStackCondition : Condition
+    public class BuffStackCondition
     {
-        private readonly Buff _buff;
-        private readonly int _stack;
-
-        public BuffStackCondition(Buff buff, int stack)
+        public static ICondition<T> Create<T>(IBuff<T> buff, int stacks) where T : class, IContext
         {
-            _buff = buff;
-            _stack = stack;
+            return new _BuffStackCondition<T>(buff, stacks);
         }
 
-        public override bool Check(Character character)
+        private class _BuffStackCondition<T> : Condition<T> where T : class, IContext
         {
-            _buff.SetContext(Context);
-            Buff fromChar = character.GetBuff(_buff);
-            return fromChar != null && fromChar.CurrentStacks >= _stack;
+            private readonly IBuff<T> _buff;
+            private readonly int _stack;
+
+            public _BuffStackCondition(IBuff<T> buff, int stack)
+            {
+                _buff = buff;
+                _stack = stack;
+            }
+
+            public override bool Check(Character character)
+            {
+                _buff.SetContext(Context);
+                IBuff fromChar = character.GetBuff(_buff);
+                return fromChar != null && fromChar.CurrentStacks >= _stack;
+            }
         }
     }
 }

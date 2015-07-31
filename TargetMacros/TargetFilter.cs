@@ -1,4 +1,6 @@
 ﻿using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
 using Quark.Targeting;
 using UnityEngine;
 
@@ -7,9 +9,9 @@ namespace Assets.QuarkDefault.TargetMacros
     class TargetFilter : TargetMacro
     {
         private readonly TargetMacro _macro;
-        private readonly Condition _filter;
+        private readonly ICondition<IContext> _filter;
 
-        public TargetFilter(TargetMacro macro, Condition filter)
+        public TargetFilter(TargetMacro macro, ICondition<IContext> filter)
         {
             _macro = macro;
             _filter = filter;
@@ -19,7 +21,7 @@ namespace Assets.QuarkDefault.TargetMacros
         {
             _filter.SetContext(Context);
 
-            _macro.SetContext(Context, true);
+            _macro.SetContext(Context);
             _macro.TargetSelected += MacroOnTargetSelected;
             _macro.PointSelected += MacroOnPointSelected;
             _macro.CharacterSelected += MacroOnCharacterSelected;

@@ -1,9 +1,11 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class DestroyEffect : Effect
+    class DestroyEffect : Effect<IContext>
     {
         public override void Apply(Character target)
         {

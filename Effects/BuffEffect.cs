@@ -1,39 +1,52 @@
 ﻿using Quark;
 using Quark.Buffs;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Effects
 {
-    /// <summary>
-    /// This effect attaches the given Buff objects to the target Character
-    /// </summary>
-    public class BuffEffect : Effect
+    public class BuffEffect
     {
-        readonly Buff[] _buffs;
+        public static IEffect<T> Create<T>(IBuff<T> buff) where T : class, IContext
+        {
+            return new _BuffEffect<T>(buff);
+        }
+
+        public static IEffect<T> Create<T>(IBuff<T>[] buffs) where T : class, IContext
+        {
+            return new _BuffEffect<T>(buffs);
+        }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuffEffect"/> class.
+        /// This effect attaches the given Buff objects to the target Character
         /// </summary>
-        /// <param name="buffsToApply">Buffs to attach on Apply time.</param>
-        public BuffEffect (Buff[] buffsToApply)
+        class _BuffEffect<T> : Effect<T> where T : class, IContext
         {
-            _buffs = new Buff[buffsToApply.Length];
-            buffsToApply.CopyTo (_buffs, 0);
-        }
+            readonly IBuff<T>[] _buffs;
 
-        public BuffEffect (Buff buff)
-        {
-            _buffs = new[] { buff };
-        }
-
-        public override void Apply (Character target)
-        {
-            foreach (Buff buff in _buffs) {
-                buff.SetContext (Context);
-                target.AttachBuff (buff);
+            /// <summary>
+            /// Initializes a new instance of the <see cref="BuffEffect"/> class.
+            /// </summary>
+            /// <param name="buffsToApply">Buffs to attach on Apply time.</param>
+            public _BuffEffect(IBuff<T>[] buffsToApply)
+            {
+                _buffs = new IBuff<T>[buffsToApply.Length];
+                buffsToApply.CopyTo(_buffs, 0);
             }
 
-            new EffectArgs (this, target).Broadcast ();
+            public _BuffEffect(IBuff<T> buff)
+            {
+                _buffs = new[] { buff };
+            }
+
+            public override void Apply(Character target)
+            {
+                foreach (IBuff<T> buff in _buffs)
+                {
+                    buff.SetContext(Context);
+                    target.AttachBuff(buff);
+                }
+            }
         }
     }
 }
-

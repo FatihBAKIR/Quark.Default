@@ -1,4 +1,7 @@
 ﻿using Quark;
+using Quark.Attributes;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Characters
 {
@@ -10,7 +13,7 @@ namespace Assets.QuarkDefault.Characters
             StatManipulated += Zombie_StatManipulated;
         }
 
-        private void Zombie_StatManipulated(Character source, Quark.Attributes.Stat stat, float change)
+        private void Zombie_StatManipulated(Character source, Stat stat, float change)
         {
             if (stat.Tag == QuarkDefault.Tags.Attributes.Health && stat.Rate == 0)
                 OnDeath();
@@ -22,9 +25,9 @@ namespace Assets.QuarkDefault.Characters
             DyingEffects.Run((Character)self, null);
         }
 
-        protected virtual EffectCollection DyingEffects
+        protected virtual EffectCollection<IContext> DyingEffects
         {
-            get { return new EffectCollection(); }
+            get { return new EffectCollection<IContext>(); }
         }
     }
 }

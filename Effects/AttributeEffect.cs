@@ -1,9 +1,11 @@
 ﻿using System;
 using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class AttributeEffect : Effect
+    /*class AttributeEffect : Effect<IContext>
     {
         private string _tag;
         private Interaction _casterInteraction, _targetInteraction;
@@ -36,7 +38,6 @@ namespace Assets.QuarkDefault.Effects
             change += CalculateValue(target);
 
             target.GetAttribute(_tag).SetBase(change);
-            new EffectArgs(this, target).Broadcast();
         }
-    }
+    }*/
 }

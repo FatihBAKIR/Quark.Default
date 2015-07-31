@@ -1,10 +1,12 @@
 ﻿using Assets.QuarkDefault.Effects;
 using Quark;
 using Quark.Buffs;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Buffs
 {
-    class StatBuff : Buff
+    class StatBuff : Buff<IContext>
     {
         private string _tag;
         private Interaction _interaction;
@@ -28,23 +30,23 @@ namespace Assets.QuarkDefault.Buffs
             _amount = _interaction.Calculate(Possessor);
         }
 
-        protected override EffectCollection PossessEffects
+        protected override EffectCollection<IContext> PossessEffects
         {
             get
             {
                 Calculate();
-                return new EffectCollection
+                return new EffectCollection<IContext>
                 {
                     new StatEffect(_tag, _amount)
                 };
             }
         }
 
-        protected override EffectCollection DoneEffects
+        protected override EffectCollection<IContext> DoneEffects
         {
             get
             {
-                return new EffectCollection
+                return new EffectCollection<IContext>
                 {
                     new StatEffect(_tag, -_amount)
                 };

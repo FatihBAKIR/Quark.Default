@@ -1,9 +1,11 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class RotateEffect : Effect
+    class RotateEffect : Effect<IContext>
     {
         private readonly Vector3 _rotation;
 

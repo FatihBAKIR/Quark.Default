@@ -1,7 +1,10 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
+
 namespace Assets.QuarkDefault.Effects
 {
-    class SetBaseEffect : Effect
+    class SetBaseEffect : Effect<IContext>
     {
         private readonly string _tag;
         private readonly float _amount;

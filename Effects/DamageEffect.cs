@@ -1,5 +1,4 @@
 ﻿using Quark;
-using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {

@@ -1,8 +1,7 @@
 ﻿using Assets.QuarkDefault.Effects;
-using Quark;
 using Quark.Buffs;
-using Quark.Utilities;
-using System.Collections.Generic;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 /*
@@ -15,7 +14,7 @@ using UnityEngine;
 
 namespace Assets.QuarkDefault.ControllerBuffs
 {
-    public class QuarkController : Buff
+    public class QuarkController : Buff<IContext>
     {
         protected readonly Vector3 Gravity;
         private const float G = 12;
@@ -37,7 +36,7 @@ namespace Assets.QuarkDefault.ControllerBuffs
 
         protected virtual float RotateSpeed
         {
-            get { return 3; }
+            get { return 1.5f; }
         }
 
         protected virtual float JumpSpeed
@@ -51,6 +50,7 @@ namespace Assets.QuarkDefault.ControllerBuffs
         {
             base.OnPossess();
             _controller = Possessor.GetComponent<CharacterController>();
+            HasAnimator = Possessor.GetComponent<Animator>() != null;
         }
 
         protected virtual bool IsMoving
@@ -65,7 +65,7 @@ namespace Assets.QuarkDefault.ControllerBuffs
 
         protected virtual Vector3 Movement
         {
-            get { return Vector3.zero; }
+            get { return Vector3.zero - Gravity; }
         }
 
         protected virtual Vector3 Rotation
@@ -75,7 +75,7 @@ namespace Assets.QuarkDefault.ControllerBuffs
 
         private bool _wasMoving;
 
-        protected override void OnTick()
+        public override void OnTick()
         {
             if (IsMoving && !_wasMoving)
             {
@@ -103,19 +103,19 @@ namespace Assets.QuarkDefault.ControllerBuffs
             StopEffects.Run(Possessor, Context);
         }
 
-        protected virtual EffectCollection MoveEffects
+        protected virtual EffectCollection<IContext> MoveEffects
         {
             get
             {
-                return new EffectCollection();
+                return new EffectCollection<IContext>();
             }
         }
 
-        protected virtual EffectCollection StopEffects
+        protected virtual EffectCollection<IContext> StopEffects
         {
             get
             {
-                return new EffectCollection();
+                return new EffectCollection<IContext>();
             }
         }
 
@@ -132,14 +132,14 @@ namespace Assets.QuarkDefault.ControllerBuffs
             }
         }
 
-        protected override EffectCollection TickEffects
+        protected override EffectCollection<IContext> TickEffects
         {
             get
             {
-                return new EffectCollection {
+                return new EffectCollection<IContext> {
                     new RotateEffect(Possessor.transform.rotation.eulerAngles + Rotation),
                     new ControllerMoveEffect (Movement * Time.deltaTime),
-                    new ConditionalEffect(HasAnimator, new MecanimEffect("Speed Input", CurrentMoveSpeed))
+                    ConditionalEffect.Create(HasAnimator, new MecanimEffect("Speed Input", CurrentMoveSpeed))
                 };
             }
         }

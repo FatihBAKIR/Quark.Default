@@ -1,8 +1,10 @@
 ﻿using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
 
 namespace Assets.QuarkDefault.Conditions
 {
-    public class TagCondition : Condition
+    public class TagCondition : Condition<IContext>
     {
         private readonly string _tag;
 

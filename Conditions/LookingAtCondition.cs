@@ -1,10 +1,12 @@
 ﻿using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
 using Quark.Utilities;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Conditions
 {
-    class LookingAtCondition : Condition
+    class LookingAtCondition : Condition<IContext>
     {
         private float _angle;
 
@@ -25,8 +27,8 @@ namespace Assets.QuarkDefault.Conditions
 
         public override bool Check(Vector3 point)
         {
-            Vector3 casterPosition = Context.Caster.transform.position;
-            Vector3 casterForward = Context.Caster.transform.forward;
+            Vector3 casterPosition = Context.Source.transform.position;
+            Vector3 casterForward = Context.Source.transform.forward;
             Vector3 fromToVector = point - casterPosition;
 
             fromToVector.Normalize();

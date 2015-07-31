@@ -9,7 +9,7 @@ namespace Assets.QuarkDefault.TargetMacros
     {
         public override void Run()
         {
-            OnTargetSelected(Context.Caster.transform.position);
+            OnTargetSelected(Context.Source.transform.position);
             OnTargetingSuccess();
         }
     }

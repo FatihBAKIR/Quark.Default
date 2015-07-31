@@ -1,9 +1,11 @@
 ﻿using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Conditions
 {
-    class ObstacleCondition : Condition
+    class ObstacleCondition : Condition<IContext>
     {
         private Vector3 _rotation;
         private float _range;

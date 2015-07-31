@@ -49,7 +49,7 @@ namespace Assets.QuarkDefault.TargetMacros
         public override void Run ()
         {
             if (_nearCaster)
-                _point = Context.Caster.transform.position;
+                _point = Context.Source.transform.position;
             foreach (Character target in ClosestCharacters())
                 OnTargetSelected (target);
             OnTargetingSuccess ();

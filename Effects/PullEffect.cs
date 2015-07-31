@@ -1,11 +1,13 @@
 ﻿using Assets.QuarkDefault.Buffs;
 using Quark;
 using Quark.Buffs;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    public class PullEffect : Effect
+    public class PullEffect : Effect<ICastContext>
     {
         readonly Vector3 _point;
         readonly bool _noPoint;
@@ -25,9 +27,9 @@ namespace Assets.QuarkDefault.Effects
 
         public override void Apply (Character target)
         {
-            Buff puller = _noPoint ? new PullBuff (_speed) : new PullBuff (_point, _speed);
+            IBuff<ICastContext> puller = _noPoint ? new PullBuff(_speed) : new PullBuff(_point, _speed);
 
-            Effect buffEffect = new BuffEffect(puller);
+            IEffect<ICastContext> buffEffect = BuffEffect.Create(puller);
 
             buffEffect.SetContext (Context);
 

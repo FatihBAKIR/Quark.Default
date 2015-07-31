@@ -1,13 +1,14 @@
-﻿using Quark;
-using Quark.Buffs;
+﻿using Quark.Buffs;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Buffs
 {
-    class DelayBuff : Buff
+    class DelayBuff : Buff<Context>
     {
-        private readonly Effect _effect;
+        private readonly Effect<Context> _effect;
 
-        public DelayBuff(Effect effect, float delay)
+        public DelayBuff(Effect<Context> effect, float delay)
         {
             Interval = 0;
             Hidden = true;
@@ -15,11 +16,11 @@ namespace Assets.QuarkDefault.Buffs
             Duration = delay;
         }
 
-        protected override EffectCollection DoneEffects
+        protected override EffectCollection<Context> DoneEffects
         {
             get
             {
-                return new EffectCollection
+                return new EffectCollection<Context>
                 {
                     _effect
                 };

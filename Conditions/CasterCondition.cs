@@ -1,40 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Quark;
+﻿using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Conditions
 {
-    class CasterCondition : Condition
+    public class CasterCondition
     {
-        private readonly Condition _condition;
-
-        public CasterCondition(Condition condition)
+        public static ICondition<T> Create<T>(ICondition<T> condition) where T : class, IContext
         {
-            _condition = condition;
+            return new _CasterCondition<T>(condition);
         }
 
-        public override bool Check()
+        private class _CasterCondition<T> : Condition<T> where T : class, IContext
         {
-            _condition.SetContext(Context);
-            return _condition.Check(Context.Caster);
-        }
+            private readonly ICondition<T> _condition;
 
-        public override bool Check(Character character)
-        {
-            return Check();
-        }
+            public _CasterCondition(ICondition<T> condition)
+            {
+                _condition = condition;
+            }
 
-        public override bool Check(Targetable target)
-        {
-            return Check();
-        }
+            public override bool Check()
+            {
+                _condition.SetContext(Context);
+                return _condition.Check(Context.Source);
+            }
 
-        public override bool Check(Vector3 point)
-        {
-            return Check();
+            public override bool Check(Character character)
+            {
+                return Check();
+            }
+
+            public override bool Check(Targetable target)
+            {
+                return Check();
+            }
+
+            public override bool Check(Vector3 point)
+            {
+                return Check();
+            }
         }
     }
 }

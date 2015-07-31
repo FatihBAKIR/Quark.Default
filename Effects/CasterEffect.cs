@@ -1,4 +1,6 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
@@ -6,38 +8,46 @@ namespace Assets.QuarkDefault.Effects
     /// <summary>
     /// This effect applies the given effect on the Caster of its context for once no matter how it is originally applied
     /// </summary>
-    class CasterEffect : Effect
+    class CasterEffect
     {
-        private byte _applyCount;
-        private readonly Effect _effect;
-
-        public CasterEffect(Effect effect)
+        public static IEffect<T> Create<T>(IEffect<T> effect) where T : class, IContext
         {
-            _effect = effect;
+            return new _CasterEffect<T>(effect);
         }
 
-        public override void Apply()
+        class _CasterEffect<T> : Effect<T> where T : class, IContext
         {
-            Apply((Character)null);
-        }
+            private byte _applyCount;
+            private readonly IEffect<T> _effect;
 
-        public override void Apply(Targetable target)
-        {
-            Apply((Character)null);
-        }
+            public _CasterEffect(IEffect<T> effect)
+            {
+                _effect = effect;
+            }
 
-        public override void Apply(Vector3 point)
-        {
-            Apply((Character)null);
-        }
+            public override void Apply()
+            {
+                Apply((Character)null);
+            }
 
-        public override void Apply(Character target)
-        {
-            if (_applyCount > 0)
-                return;
-            _applyCount++;
-            _effect.SetContext(Context);
-            _effect.Apply(Context.Caster);
+            public override void Apply(Targetable target)
+            {
+                Apply((Character)null);
+            }
+
+            public override void Apply(Vector3 point)
+            {
+                Apply((Character)null);
+            }
+
+            public override void Apply(Character target)
+            {
+                if (_applyCount > 0)
+                    return;
+                _applyCount++;
+                _effect.SetContext(Context);
+                _effect.Apply(Context.Source);
+            }
         }
     }
 }

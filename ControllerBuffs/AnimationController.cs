@@ -1,9 +1,10 @@
 ﻿using Quark.Buffs;
+using Quark.Contexts;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.ControllerBuffs
 {
-    class AnimationController : Buff
+    class AnimationController : Buff<IContext>
     {
         public AnimationController()
         {
@@ -28,7 +29,7 @@ namespace Assets.QuarkDefault.ControllerBuffs
         }*/
         }
 
-        protected override void OnTick()
+        public override void OnTick()
         {
             if (IsAnimActive(_fadingAnim))
                 _fadingAnim = "";

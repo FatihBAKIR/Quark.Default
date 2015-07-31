@@ -1,9 +1,11 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    public class TranslateEffect : Effect
+    public class TranslateEffect : Effect<IContext>
     {
         readonly Vector3 _movement;
         public TranslateEffect (Vector3 movement)
@@ -13,9 +15,7 @@ namespace Assets.QuarkDefault.Effects
 
         public override void Apply (Targetable target)
         {
-            //Debug.DrawLine(target.transform.position, target.transform.position + _movement.normalized);
             target.transform.position += _movement;
-            //target.transform.Translate (_movement);
         }
 
         public override void Apply (Character target)

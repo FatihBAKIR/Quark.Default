@@ -3,6 +3,7 @@ using Quark.Utilities;
 using UnityEngine;
 using System.Collections.Generic;
 using Quark;
+using Quark.Contexts;
 using Quark.Spells;
 
 namespace Assets.QuarkDefault.ControllerBuffs
@@ -26,12 +27,12 @@ namespace Assets.QuarkDefault.ControllerBuffs
 
         public bool Check(string prefix)
         {
-            return (Input.GetButtonUp(prefix + _button));
+            return (Input.GetButtonDown(prefix + _button));
         }
 
         public void Activate(Character caster)
         {
-            Cast.PrepareCast(caster, new T());
+            new CastContext(caster, new T());
         }
     }
 
@@ -62,6 +63,7 @@ namespace Assets.QuarkDefault.ControllerBuffs
                 if (IsGrounded)
                 {
                     _move = Possessor.transform.forward * Mathf.Round(Input.GetAxis(_inputPrefix + "Vertical")) * MoveSpeed;
+                    _move += Possessor.transform.right * Mathf.Round(Input.GetAxis(_inputPrefix + "Horizontal")) * MoveSpeed;
 
                     if (Input.GetButton(_inputPrefix + "Jump"))
                         _move.y = JumpSpeed;
@@ -76,11 +78,11 @@ namespace Assets.QuarkDefault.ControllerBuffs
         {
             get
             {
-                return IsGrounded ? new Vector3(0, Mathf.Round(Input.GetAxis(_inputPrefix + "Horizontal")) * RotateSpeed, 0) : Vector3.zero;
+                return IsGrounded ? new Vector3(0, Mathf.Round(Input.GetAxis(_inputPrefix + "RightHorizontal")) * RotateSpeed, 0) : Vector3.zero;
             }
         }
 
-        protected override void OnTick()
+        public override void OnTick()
         {
             base.OnTick();
             CheckBindings();

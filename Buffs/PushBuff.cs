@@ -12,7 +12,7 @@ namespace Assets.QuarkDefault.Buffs
 
         Vector3 From
         {
-            get { return _fromCaster ? Context.Caster.transform.position : _from; }
+            get { return _fromCaster ? Context.Source.transform.position : _from; }
         }
 
         Vector3 Direction
@@ -38,7 +38,7 @@ namespace Assets.QuarkDefault.Buffs
         public override void OnPossess()
         {
             base.OnPossess();
-            Destination = From + Direction * _range;
+            Destination = Possessor.transform.position + Direction * _range;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Assets.QuarkDefault.TargetMacros;
 using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
@@ -8,30 +10,40 @@ namespace Assets.QuarkDefault.Effects
     /// <summary>
     /// This effect relays the characters in a range of the target point to the given effect 
     /// </summary>
-    public class AreaOfEffect : Effect
+    public class AreaOfEffect
     {
-        readonly Effect _effect;
-        readonly float _range;
-        public AreaOfEffect (Effect effect, float range)
+        public static IEffect<T> Create<T>(IEffect<T> effect, float range) where T : class, IContext
         {
-            _effect = effect;
-            _range = range;
+            return new _AreaOfEffect<T>(effect, range);
         }
 
-        public override void Apply (Vector3 point)
+        public class _AreaOfEffect<T> : Effect<T> where T : IContext
         {
-            List<Character> targets = new List<Character>();
-            NearbyCharacters chars = new NearbyCharacters (point, _range);
-            chars.SetContext(Context, true);
-            chars.CharacterSelected += delegate(Character target)
+            readonly IEffect<T> _effect;
+            readonly float _range;
+            public _AreaOfEffect(IEffect<T> effect, float range)
             {
-                targets.Add(target);
-            };
-            chars.Run ();
-            _effect.SetContext(Context);
-            foreach (Character target in targets) {
-                _effect.Apply (target);
+                _effect = effect;
+                _range = range;
+            }
+
+            public override void Apply(Vector3 point)
+            {
+                List<Character> targets = new List<Character>();
+                NearbyCharacters chars = new NearbyCharacters(point, _range);
+                chars.SetContext(Context);
+                chars.CharacterSelected += delegate(Character target)
+                {
+                    targets.Add(target);
+                };
+                chars.Run();
+                _effect.SetContext(Context);
+                foreach (Character target in targets)
+                {
+                    _effect.Apply(target);
+                }
             }
         }
     }
+
 }

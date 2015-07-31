@@ -1,8 +1,10 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class UntagEffect : Effect
+    class UntagEffect : Effect<IContext>
     {
         private readonly string _tag;
         public UntagEffect(string tag)

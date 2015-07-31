@@ -6,12 +6,12 @@ namespace Assets.QuarkDefault.Items
 {
     class Boots : Item
     {
-        protected override EffectCollection GrabEffects
+        /*protected override EffectCollection GrabEffects
         {
             get { return new EffectCollection
             {
                 new BuffEffect(new StatBuff("ms", 2, 10))
             }; }
-        }
+        }*/
     }
 }

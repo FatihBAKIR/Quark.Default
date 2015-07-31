@@ -2,11 +2,13 @@
 using Assets.QuarkDefault.Effects;
 using Quark;
 using Quark.Buffs;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Buffs
 {
-    public class PullBuff : Buff
+    public class PullBuff : Buff<ICastContext>
     {
         Vector3 _pullTo;
         Vector3 _movement;
@@ -34,7 +36,7 @@ namespace Assets.QuarkDefault.Buffs
         {
             if (_setToCaster)
             {
-                _pullTo = Context.CastBeginPoint + Context.Caster.transform.forward / 2;
+                _pullTo = Context.CastBeginPosition + Context.Source.transform.forward / 2;
                 _movement = CalculateMovement();
             }
         }
@@ -44,36 +46,51 @@ namespace Assets.QuarkDefault.Buffs
             return (_pullTo - Possessor.transform.position).normalized;
         }
 
-        protected override EffectCollection PossessEffects
-        {
-            get { return new EffectCollection { new TagEffect(QuarkDefault.Tags.Immobile) }; }
-        }
-
-        protected override EffectCollection TickEffects
+        protected override EffectCollection<ICastContext> PossessEffects
         {
             get
             {
-                return new EffectCollection {
+                return new EffectCollection<ICastContext>
+                {
+                    new TagEffect(QuarkDefault.Tags.Immobile)
+                };
+            }
+        }
+
+        protected override EffectCollection<ICastContext> TickEffects
+        {
+            get
+            {
+                return new EffectCollection<ICastContext> {
                    new TranslateEffect (_movement * Time.deltaTime * _speed)
                 };
             }
         }
 
-        protected override EffectCollection DoneEffects
-        {
-            get { return new EffectCollection { new UntagEffect(QuarkDefault.Tags.Immobile) }; }
-        }
-
-        protected override EffectCollection TerminateEffects
-        {
-            get { return DoneEffects; }
-        }
-
-        protected override ConditionCollection DoneConditions
+        protected override EffectCollection<ICastContext> DoneEffects
         {
             get
             {
-                return new ConditionCollection
+                return new EffectCollection<ICastContext>
+                {
+                    new UntagEffect(QuarkDefault.Tags.Immobile)
+                };
+            }
+        }
+
+        protected override EffectCollection<ICastContext> TerminateEffects
+        {
+            get
+            {
+                return DoneEffects;
+            }
+        }
+
+        protected override ConditionCollection<ICastContext> DoneConditions
+        {
+            get
+            {
+                return new ConditionCollection<ICastContext>
                 {
                     new DistanceCondition(0.5f, _pullTo)
                 };

@@ -1,9 +1,11 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class VisualEffect : Effect
+    class VisualEffect : Effect<IContext>
     {
         private readonly GameObject _obj;
         private readonly Vector3 _offset;

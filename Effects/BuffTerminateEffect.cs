@@ -1,20 +1,33 @@
 ﻿using Quark;
 using Quark.Buffs;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class BuffTerminateEffect : Effect
+    public class BuffTerminateEffect
     {
-        private readonly Buff _toTerminate;
-
-        public BuffTerminateEffect(Buff buff)
+        public static IEffect<T> Create<T>(IBuff<T> buff) where T : class, IContext
         {
-            _toTerminate = buff;
+            return new _BuffTerminateEffect<T>(buff);
         }
 
-        public override void Apply(Character target)
+        private class _BuffTerminateEffect<T> : Effect<T> where T : class, IContext
         {
-            target.GetBuff(_toTerminate).Terminate();
+            private readonly IBuff<T> _toTerminate;
+
+            public _BuffTerminateEffect(IBuff<T> buff)
+            {
+                _toTerminate = buff;
+            }
+
+            public override void Apply(Character target)
+            {
+                _toTerminate.SetContext(Context);
+                IBuff buff = target.GetBuff(_toTerminate);
+                if (buff != null)
+                    buff.Terminate();
+            }
         }
     }
 }

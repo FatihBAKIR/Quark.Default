@@ -1,6 +1,9 @@
 ﻿using Assets.QuarkDefault.Conditions;
 using Assets.QuarkDefault.Effects;
 using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
+using Quark.Effects;
 using Quark.Spells;
 
 namespace Assets.QuarkDefault.Spells
@@ -14,14 +17,27 @@ namespace Assets.QuarkDefault.Spells
 
         public float ManaCost;
 
-        protected override Condition InvokeCondition
+        protected override ConditionCollection<ICastContext> InvokeConditions
         {
-            get { return new ManaCondition(ManaCost); }
+            get
+            {
+                return new ConditionCollection<ICastContext>
+                {
+                    new ManaCondition(ManaCost)
+                };
+            }
         }
 
-        protected override EffectCollection TargetingDoneEffects
+        protected override EffectCollection<ICastContext> TargetingDoneEffects
         {
-            get { return base.TargetingDoneEffects + new EffectCollection { new CasterEffect(new StatEffect("mana", -ManaCost)) }; }
+            get
+            {
+                return base.TargetingDoneEffects +
+                new EffectCollection<ICastContext>
+                {
+                    CasterEffect.Create(new StatEffect("mana", -ManaCost))
+                };
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Assets.QuarkDefault.TargetMacros
         {
             Vector3 forward = Caster.transform.forward * _range + Caster.transform.position;
 
-            forward.y = 0;
+            forward.y += Caster.HeightOffset;
 
             OnTargetSelected(forward);
             OnTargetingSuccess();

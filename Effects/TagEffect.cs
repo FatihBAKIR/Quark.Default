@@ -1,8 +1,10 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class TagEffect : Effect
+    class TagEffect : Effect<IContext>
     {
         private readonly string _tag;
         private readonly object _val;

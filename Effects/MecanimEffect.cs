@@ -1,9 +1,11 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    class MecanimEffect : Effect
+    class MecanimEffect : Effect<IContext>
     {
         private enum MecanimType
         {

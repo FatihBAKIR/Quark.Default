@@ -20,7 +20,7 @@ namespace Assets.QuarkDefault.TargetMacros
         public override void Run()
         {
             _selector = new NearestCharacter(_range);
-            _selector.SetContext(Context, true);
+            _selector.SetContext(Context);
             _selector.TargetingSuccess += delegate(TargetCollection targets)
             {
                 LookingAtCondition isLooking = new LookingAtCondition(_angle);

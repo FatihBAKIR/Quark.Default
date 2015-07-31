@@ -1,4 +1,6 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Effects
 {
@@ -6,7 +8,7 @@ namespace Assets.QuarkDefault.Effects
     /// Stat effect.
     /// This effect manipulates one of the given target Characters stat on Apply time
     /// </summary>
-    public class StatEffect : Effect
+    public class StatEffect : Effect<IContext>
     {
         readonly string _tag;
         readonly Interaction _casterInteractions;
@@ -27,7 +29,7 @@ namespace Assets.QuarkDefault.Effects
 
         protected virtual float CalculateValue (Character of)
         {
-            float casterVal = _casterInteractions == null ? 0 : _casterInteractions.Calculate (Context.Caster);
+            float casterVal = _casterInteractions == null ? 0 : _casterInteractions.Calculate (Context.Source);
             float targetVal = _targetInteractions == null ? 0 : _targetInteractions.Calculate (of);
 
             return casterVal + targetVal;
@@ -40,7 +42,6 @@ namespace Assets.QuarkDefault.Effects
             change += CalculateValue (target);
 
             target.GetStat (_tag).Manipulate (change);
-            new EffectArgs (this, target).Broadcast ();
         }
     }
 }

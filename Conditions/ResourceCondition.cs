@@ -1,12 +1,13 @@
 ﻿using System;
 using Quark;
 using Quark.Attributes;
-using UnityEngine;
+using Quark.Conditions;
+using Quark.Contexts;
 using Attribute = Quark.Attributes.Attribute;
 
 namespace Assets.QuarkDefault.Conditions
 {
-    internal class ResourceCondition : Condition
+    internal class ResourceCondition : Condition<IContext>
     {
         public delegate bool AttributeChecker(Attribute attr);
         private string _tag;

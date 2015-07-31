@@ -1,4 +1,6 @@
 ﻿using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
 using Quark.Utilities;
 using UnityEngine;
 
@@ -7,16 +9,16 @@ namespace Assets.QuarkDefault.Conditions
     /// <summary>
     /// This condition checks whether the target point, targetable or character is within a given range of the given point or caster
     /// </summary>
-    class DistanceCondition : Condition
+    class DistanceCondition : Condition<IContext>
     {
         private readonly float _range;
         private readonly Vector3 _point;
 
-        private bool _fromCaster;
+        private readonly bool _fromCaster;
 
         Vector3 Point
         {
-            get { return _fromCaster ? Context.Caster.transform.position : _point; }
+            get { return _fromCaster ? Context.Source.transform.position : _point; }
         }
 
         public DistanceCondition(float range)

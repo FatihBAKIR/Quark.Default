@@ -1,13 +1,14 @@
 ﻿using Quark;
-using Quark.Spells;
+using Quark.Contexts;
+using Quark.Effects;
 
 namespace Assets.QuarkDefault.Effects
 {
-    public class InterruptEffect : Effect
+    public class InterruptEffect : Effect<IContext>
     {
         public override void Apply (Character target)
         {
-            foreach (Cast cast in target.Casts)
+            foreach (ICastContext cast in target.Casts)
                 cast.Interrupt ();
         }
     }

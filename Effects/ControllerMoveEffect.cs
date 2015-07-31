@@ -1,9 +1,11 @@
 ﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    public class ControllerMoveEffect : Effect
+    public class ControllerMoveEffect : Effect<IContext>
     {
         Vector3 _vector;
 

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Quark;
+﻿using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using Quark.Targeting;
 using UnityEngine;
 
@@ -17,59 +15,67 @@ namespace Assets.QuarkDefault.Effects
     /// 
     /// This is a one time effect.
     /// </summary>
-    class TargetRelayEffect : Effect
+    class TargetRelayEffect
     {
-        private TargetMacro _macro;
-        private Effect _effect;
-
-        public TargetRelayEffect(TargetMacro macro, Effect effect)
+        public static IEffect<T> Create<T>(TargetMacro macro, IEffect<T> effect) where T : class, IContext
         {
-            _effect = effect;
-            _macro = macro;
+            return new _TargetRelayEffect<T>(macro, effect);
         }
 
-        void RunMacro()
+        class _TargetRelayEffect<T> : Effect<IContext> where T : class, IContext
         {
-            _macro.SetContext(Context, true);
-            _macro.TargetingSuccess += _macro_TargetingSuccess;
-            _macro.Run();
+            private TargetMacro _macro;
+            private IEffect<T> _effect;
 
-            _macro.TargetingSuccess -= _macro_TargetingSuccess;
-            _macro.SetContext(null, true);
-        }
+            public _TargetRelayEffect(TargetMacro macro, IEffect<T> effect)
+            {
+                _effect = effect;
+                _macro = macro;
+            }
 
-        void _macro_TargetingSuccess(TargetCollection targets)
-        {
-            new EffectCollection
+            void RunMacro()
+            {
+                _macro.SetContext(Context);
+                _macro.TargetingSuccess += _macro_TargetingSuccess;
+                _macro.Run();
+
+                _macro.TargetingSuccess -= _macro_TargetingSuccess;
+                _macro.SetContext(null);
+            }
+
+            void _macro_TargetingSuccess(TargetCollection targets)
+            {
+                new EffectCollection<T>
             {
                 _effect
             }
-            .Run(targets);
-        }
+                .Run(targets);
+            }
 
-        private bool _hasApplied;
-        public override void Apply()
-        {
-            if (_hasApplied)
-                return;
+            private bool _hasApplied;
+            public override void Apply()
+            {
+                if (_hasApplied)
+                    return;
 
-            _hasApplied = true;
-            RunMacro();
-        }
+                _hasApplied = true;
+                RunMacro();
+            }
 
-        public override void Apply(Character target)
-        {
-            Apply();
-        }
+            public override void Apply(Character target)
+            {
+                Apply();
+            }
 
-        public override void Apply(Targetable target)
-        {
-            Apply();
-        }
+            public override void Apply(Targetable target)
+            {
+                Apply();
+            }
 
-        public override void Apply(Vector3 point)
-        {
-            Apply();
+            public override void Apply(Vector3 point)
+            {
+                Apply();
+            }
         }
     }
 }

@@ -1,32 +1,53 @@
+using System;
 using Quark;
 using Quark.Spells;
 using UnityEngine;
 using System.Collections.Generic;
+using Quark.Contexts;
 
 namespace Assets.QuarkDefault.Spells
 {
     class PrototypedSpell : Spell
     {
+        private readonly Dictionary<Type, Spell> _prototypes;
+
+        protected IEnumerable<Spell> Prototypes
+        {
+            get { return _prototypes.Values; }
+        }
+
         public PrototypedSpell()
         {
-            Prototypes = new List<Spell>();
+            _prototypes = new Dictionary<Type, Spell>();
         }
 
-        public PrototypedSpell(Spell[] prototypes)
+        public void AddPrototype<T>(T prototype) where T : Spell
         {
-            Prototypes = new List<Spell>(prototypes);
+            if (_prototypes.ContainsKey(typeof(T))) return;
+
+            _prototypes.Add(typeof(T), prototype);
         }
 
-        protected List<Spell> Prototypes { get; private set; }
-
-        public void AddPrototype(Spell prototype)
+        public void RemovePrototype<T>(T prototype) where T : Spell
         {
-            Prototypes.Add(prototype);
+            if (!_prototypes.ContainsKey(typeof(T))) return;
+
+            _prototypes.Remove(typeof(T));
         }
 
-        public void RemovePrototype(Spell prototype)
+        public void RemovePrototype<T>()
         {
-            Prototypes.Remove(prototype);
+            if (!_prototypes.ContainsKey(typeof(T))) return;
+
+            _prototypes.Remove(typeof(T));
+        }
+
+        public T GetPrototype<T>() where T : class 
+        {
+            if (!_prototypes.ContainsKey(typeof(T))) 
+                return null;
+
+            return _prototypes[typeof(T)] as T;
         }
 
         public override bool CanInvoke()
@@ -107,59 +128,59 @@ namespace Assets.QuarkDefault.Spells
             base.OnInterrupt();
         }
 
-        public override void OnTravel(Vector3 position)
+        public override void OnTravel(Vector3 position, ProjectileContext context)
         {
             foreach (Spell spell in Prototypes)
             {
                 spell.SetContext(Context);
-                spell.OnTravel(position);
+                spell.OnTravel(position, context);
             }
 
-            base.OnTravel(position);
+            base.OnTravel(position, context);
         }
 
-        public override void OnHit(Character character)
+        public override void OnHit(Character character, IHitContext context)
         {
             foreach (Spell spell in Prototypes)
             {
                 spell.SetContext(Context);
-                spell.OnHit(character);
+                spell.OnHit(character, context);
             }
 
-            base.OnHit(character);
+            base.OnHit(character, context);
         }
 
-        public override void OnHit(Targetable targetable)
+        public override void OnHit(Targetable targetable, IHitContext context)
         {
             foreach (Spell spell in Prototypes)
             {
                 spell.SetContext(Context);
-                spell.OnHit(targetable);
+                spell.OnHit(targetable, context);
             }
 
-            base.OnHit(targetable);
+            base.OnHit(targetable, context);
         }
 
-        public override void OnHit(Vector3 position)
+        public override void OnHit(Vector3 position, IHitContext context)
         {
             foreach (Spell spell in Prototypes)
             {
                 spell.SetContext(Context);
-                spell.OnHit(position);
+                spell.OnHit(position, context);
             }
 
-            base.OnHit(position);
+            base.OnHit(position, context);
         }
 
-        public override void OnMiss()
+        public override void OnMiss(IProjectileContext context)
         {
             foreach (Spell spell in Prototypes)
             {
                 spell.SetContext(Context);
-                spell.OnMiss();
+                spell.OnMiss(context);
             }
 
-            base.OnMiss();
+            base.OnMiss(context);
         }
 
         public override void OnFinal()

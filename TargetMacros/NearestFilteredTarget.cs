@@ -1,24 +1,26 @@
 ﻿using Quark;
+using Quark.Conditions;
+using Quark.Contexts;
 using Quark.Targeting;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.TargetMacros
 {
-    class NearestFilteredTarget : TargetMacro
+    class NearestFilteredTarget<T> : TargetMacro where T : Condition<IContext>
     {
         protected Vector3 _point;
         protected float _range;
         protected bool _nearCaster;
-        private readonly Condition _filter;
+        private readonly T _filter;
         
-        public NearestFilteredTarget (float range, Condition filter)
+        public NearestFilteredTarget (float range, T filter)
         {
             _filter = filter;
             _range = range;
             _nearCaster = true;
         }
 
-        public NearestFilteredTarget(Vector3 point, float range, Condition filter)
+        public NearestFilteredTarget(Vector3 point, float range, T filter)
         {
             _filter = filter;
             _point = point;

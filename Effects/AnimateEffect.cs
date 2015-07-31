@@ -1,10 +1,12 @@
 ﻿using Assets.QuarkDefault.ControllerBuffs;
 using Quark;
+using Quark.Contexts;
+using Quark.Effects;
 using UnityEngine;
 
 namespace Assets.QuarkDefault.Effects
 {
-    public class AnimateEffect : Effect
+    public class AnimateEffect : Effect<IContext>
     {
         private string _anim;
         private bool _replayOnExists;
